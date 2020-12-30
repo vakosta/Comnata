@@ -1,4 +1,4 @@
-package tv.comnata.comnata.pojo;
+package tv.comnata.comnata.entities;
 
 public class Cat {
     private int id;
