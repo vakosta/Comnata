@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Загрузка файла</title>
 </head>
 <body>
-<form action="/upload" enctype="multipart/form-data"
-      method="POST">
-    File to upload: <input name="file" type="file"><br/> Name: <input
-        name="name" type="text"><br/> <br/> <input type="submit"
-                                                   value="Upload"> Press here to upload the file!
+<form action="/api/upload" enctype="multipart/form-data" method="POST">
+    Файл для загрузки: <input name="file" type="file"><br/>
+    <br/><br/>
+    <input type="submit" value="Загрузить!">
 </form>
 </body>
 </html>

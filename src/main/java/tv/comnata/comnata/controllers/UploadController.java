@@ -9,8 +9,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 
 @RestController
-@RequestMapping("/main")
-public class MainController {
+@RequestMapping("/api")
+public class UploadController {
     @GetMapping("/{id}")
     @ResponseBody
     public Cat index(HttpServletRequest request, @PathVariable int id) {
