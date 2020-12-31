@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
-class UploadControllerTest {
+class VideoControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
