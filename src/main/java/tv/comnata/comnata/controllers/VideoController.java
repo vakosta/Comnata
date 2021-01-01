@@ -8,10 +8,6 @@ import tv.comnata.comnata.services.UserService;
 import tv.comnata.comnata.services.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.util.Objects;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/video")
@@ -52,24 +48,6 @@ public class VideoController {
     public String uploadFile(
             @RequestParam MultipartFile file
     ) {
-        String[] separatedName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
-
-        String name = UUID.randomUUID().toString().replace("-", "");
-        String type = "." + separatedName[separatedName.length - 1];
-
-        if (!file.isEmpty() && separatedName.length > 1) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream("videos/" + name + type));
-                stream.write(bytes);
-                stream.close();
-                return "Вы успешно загрузили файл " + name + type;
-            } catch (Exception e) {
-                return "Вам не удалось загрузить " + name + type + " => " + e.getMessage();
-            }
-        }
-
-        return "Файл пустой.";
+        return videoService.saveVideo(file);
     }
 }
