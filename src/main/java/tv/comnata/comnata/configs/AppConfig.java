@@ -18,8 +18,8 @@ public class AppConfig {
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
 
-        factory.setMaxFileSize(DataSize.ofGigabytes(5));
-        factory.setMaxRequestSize(DataSize.ofGigabytes(5));
+        factory.setMaxFileSize(DataSize.ofGigabytes(7));
+        factory.setMaxRequestSize(DataSize.ofGigabytes(7));
 
         return factory.createMultipartConfig();
     }
