@@ -47,9 +47,9 @@ VALUES (1, 'Vakosta', 'password', 'zzoorm@gmail.com'),
        (4, 'Random_chel', 'password', 'chel@ya.ru');
 
 INSERT INTO roles (id, name)
-VALUES (1, 'Администратор'),
-       (2, 'Модератор'),
-       (3, 'Пользователь');
+VALUES (1, 'USER'),
+       (2, 'ADMIN'),
+       (3, 'MODERATOR');
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 1),
