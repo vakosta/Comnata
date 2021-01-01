@@ -3,7 +3,8 @@ package tv.comnata.comnata.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tv.comnata.comnata.entities.Cat;
+import tv.comnata.comnata.entities.User;
+import tv.comnata.comnata.services.UserService;
 import tv.comnata.comnata.services.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,17 +16,26 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/video")
 public class VideoController {
-    private VideoService service;
+    private VideoService videoService;
+    private UserService userService;
 
     @Autowired
-    public void setService(VideoService service) {
-        this.service = service;
+    public void setVideoService(VideoService videoService) {
+        this.videoService = videoService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public Cat index(HttpServletRequest request, @PathVariable int id) {
-        return new Cat(id, "Yo!", 18);
+    public User index(
+            HttpServletRequest request,
+            @PathVariable int id
+    ) {
+        return userService.getUserById(id);
     }
 
     @GetMapping("/getPart")
