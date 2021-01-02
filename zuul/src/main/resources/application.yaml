@@ -15,7 +15,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 zuul:
   routes:
+    user-service: /user/**
     video-service: /video/**
   sensitiveHeaders: Cookie, Set-Cookie
-ribbon:
-  ReadTimeout: 60000
