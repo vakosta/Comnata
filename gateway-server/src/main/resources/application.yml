@@ -1,21 +1,25 @@
 spring:
-  application:
-    name: gateway-server
   cloud:
     gateway:
       routes:
         - id: user-service
-          uri: localhost:8191
+          uri: http://localhost:8191
           predicates:
-            - Path=/user/
+            - Path=/user/**
         - id: video-service
-          uri: localhost:8190
+          uri: http://localhost:8190
           predicates:
-            - Path=/video/
+            - Path=/video/**
+      discovery:
+        locator:
+          lower-case-service-id: true
 server:
-  port: 5555
-  servlet:
-    context-path: /api
+  port: 80
+  #  ssl:
+  #    key-store: classpath:keystore.p12
+  #    key-store-password: qwerty
+  #    key-alias: test_key
+  #    key-store-type: PKCS12
 eureka:
   instance:
     preferIpAddress: true

@@ -1,16 +1,14 @@
 package tv.comnata.videoservice.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tv.comnata.videoservice.services.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@RequestMapping("/video")
 public class VideoController {
     private VideoService videoService;
 
@@ -19,8 +17,13 @@ public class VideoController {
         this.videoService = videoService;
     }
 
+    @GetMapping("")
+    public String test1() {
+        return "Ok!";
+    }
+
     @GetMapping("/test")
-    public String test() {
+    public String test2() {
         return "Ok!";
     }
 

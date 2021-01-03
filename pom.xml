@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka</module>
-        <module>zuul</module>
+        <module>gateway-server</module>
         <module>user-service</module>
         <module>video-service</module>
     </modules>

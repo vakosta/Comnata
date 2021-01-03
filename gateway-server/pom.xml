@@ -7,6 +7,7 @@
         <groupId>tv.comnata</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>gateway-server</artifactId>
     <name>gateway-server</name>
 
