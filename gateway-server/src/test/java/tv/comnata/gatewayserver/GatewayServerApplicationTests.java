@@ -1,10 +1,10 @@
-package tv.comnata.zuul;
+package tv.comnata.gatewayserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ZuulApplicationTests {
+class GatewayServerApplicationTests {
 
     @Test
     void contextLoads() {
