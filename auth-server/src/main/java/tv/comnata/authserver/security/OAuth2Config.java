@@ -1,6 +1,7 @@
 package tv.comnata.authserver.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     }
 
     @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
+    public void setUserDetailsService(@Qualifier("userDetailsServiceBean") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
