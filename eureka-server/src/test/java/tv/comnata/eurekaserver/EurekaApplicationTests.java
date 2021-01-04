@@ -1,4 +1,4 @@
-package tv.comnata.eureka;
+package tv.comnata.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
