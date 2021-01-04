@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: video-service
+
+server:
+  port: 8190
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:8880/auth/user
+    client:
+      client-id: flametoken
+      client-secret: thisissecret
