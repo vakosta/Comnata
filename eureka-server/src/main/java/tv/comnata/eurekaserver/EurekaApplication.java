@@ -1,4 +1,4 @@
-package tv.comnata.eureka;
+package tv.comnata.eurekaserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

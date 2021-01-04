@@ -8,8 +8,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>eureka</artifactId>
-    <name>eureka</name>
+    <artifactId>eureka-server</artifactId>
+    <name>eureka-server</name>
 
     <dependencies>
         <dependency>
