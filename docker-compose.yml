@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  eureka-server:
+    container_name: eureka
+    build: eureka-server
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    networks:
+      - eureka-network
+
+  auth-server:
+    container_name: auth-server
+    build: auth-server
+    restart: on-failure
+    ports:
+      - "8880:8880"
+    networks:
+      - eureka-network
+
+  gateway-server:
+    container_name: gateway-server
+    build: gateway-server
+    restart: on-failure
+    ports:
+      - "80:8762"
+    networks:
+      - eureka-network
+
+  # user-service:
+  #   container_name: user-service
+  #   build: user-service
+  #   restart: on-failure
+  #   ports:
+  #     - "8191:8191"
+  #   networks:
+  #     - eureka-network
+
+  video-service:
+    container_name: video-service
+    build: video-service
+    restart: on-failure
+    ports:
+      - "8190:8190"
+    networks:
+      - eureka-network
+
+networks:
+  eureka-network:
+    name: "eureka-network"

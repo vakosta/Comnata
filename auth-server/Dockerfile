@@ -1,6 +1,6 @@
 FROM openjdk:14-jdk-alpine
 
-EXPOSE 8761
+EXPOSE 8880
 
 # RUN addgroup -S spring && adduser -S spring -G spring
 # USER spring:spring

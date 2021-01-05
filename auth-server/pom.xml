@@ -12,6 +12,10 @@
     <artifactId>auth-server</artifactId>
     <name>auth-server</name>
 
+    <properties>
+        <start-class>tv.comnata.authserver.AuthServerApplication</start-class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -37,5 +41,14 @@
             <version>1.1.1.RELEASE</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

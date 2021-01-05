@@ -1,20 +1,22 @@
 spring:
+  application:
+    name: gateway-server
   cloud:
     gateway:
       routes:
         - id: user-service
-          uri: http://localhost:8191
+          uri: http://user-service:8191
           predicates:
             - Path=/user/**
         - id: video-service
-          uri: http://localhost:8190
+          uri: http://video-service:8190
           predicates:
             - Path=/video/**
       discovery:
         locator:
           lower-case-service-id: true
 server:
-  port: 80
+  port: 8762
   #  ssl:
   #    key-store: classpath:keystore.p12
   #    key-store-password: qwerty
@@ -27,4 +29,4 @@ eureka:
     registerWithEureka: false
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/

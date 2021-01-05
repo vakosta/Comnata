@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: auth-server
+
 server:
   port: 8880
 
@@ -19,4 +23,4 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
