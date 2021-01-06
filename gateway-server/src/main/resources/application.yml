@@ -9,7 +9,7 @@ spring:
           predicates:
             - Path=/user/**
         - id: video-service
-          uri: http://video-service:8190
+          uri: http://localhost:8190
           predicates:
             - Path=/video/**
       discovery:

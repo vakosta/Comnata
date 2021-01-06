@@ -1,13 +1,12 @@
 package tv.comnata.videoservice.services;
 
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -22,22 +21,35 @@ public class VideoService {
     }
 
     private void splitVideoIntoSegments(String path, String fileName) {
+        String command = "ffmpeg -i " + path + fileName + " " +
+                "-c:a aac -strict experimental -c:v libx264 -s 426x240 -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 " + path + "240p/" + "video.m3u8 " +
+                "-c:a aac -strict experimental -c:v libx264 -s 640x360 -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 " + path + "360p/" + "video.m3u8 " +
+                "-c:a aac -strict experimental -c:v libx264 -s 852x480 -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 " + path + "480p/" + "video.m3u8 " +
+                "-c:a aac -strict experimental -c:v libx264 -s 1280x720 -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 " + path + "720p/" + "video.m3u8 " +
+                "-c:a aac -strict experimental -c:v libx264 -s 1920x1080 -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 " + path + "1080p/" + "video.m3u8";
+
+        createDirectoryIfNotExists(path + "240p");
+        createDirectoryIfNotExists(path + "360p");
+        createDirectoryIfNotExists(path + "480p");
+        createDirectoryIfNotExists(path + "720p");
+        createDirectoryIfNotExists(path + "1080p");
+
+        StringBuilder result = null;
         try {
-            FFmpeg ffmpeg = new FFmpeg("/path/to/ffmpeg");
+            ProcessBuilder builder = new ProcessBuilder();
+            builder.redirectErrorStream(true); // This is the important part
+            builder.command(command.split(" "));
+            Process process = builder.start();
 
-            FFmpegBuilder builder = new FFmpegBuilder()
-
-                    .setInput(path + fileName)     // Filename, or a FFmpegProbeResult
-                    .overrideOutputFiles(true) // Override the output if it exists
-
-                    .addOutput(path + "output.mp4")   // Filename for the destination
-                    .setFormat("mp4")        // Format is inferred from filename, or can be set
-
-                    .done();
-
-            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg);
-            executor.createJob(builder).run();
-        } catch (IOException ignored) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+                result.append(inputLine);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -50,8 +62,11 @@ public class VideoService {
         if (!file.isEmpty() && separatedName.length > 1) {
             try {
                 createDirectoryIfNotExists(realPath);
+                createDirectoryIfNotExists(realPath + name);
 
-                file.transferTo(new File(realPath + name + type));
+                file.transferTo(new File(realPath + name + "/" + "original" + type));
+
+                splitVideoIntoSegments(realPath + name + "/", "original" + type);
 
                 return "Вы успешно загрузили файл " + name + type;
             } catch (Exception e) {

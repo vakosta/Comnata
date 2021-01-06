@@ -27,10 +27,9 @@ public class VideoController {
         return "Ok!";
     }
 
-    @GetMapping("/getPart")
+    @GetMapping("/getBroadcast")
     public String getPart(
-            @RequestParam String videoId,
-            @RequestParam int filePart
+            @RequestParam String videoId
     ) {
         return "Здесь можно будет получить файл.";
     }
