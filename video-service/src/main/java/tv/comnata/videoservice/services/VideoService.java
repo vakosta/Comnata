@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-public class VideoService {
+public class VideoService implements FfmpegManager.OnUpdateProgressListener {
     public static final String DIRECTORY_PATH = "videos";
 
     private void createDirectoryIfNotExists(String realPath) {
@@ -75,5 +75,10 @@ public class VideoService {
         }
 
         return "Файл пустой.";
+    }
+
+    @Override
+    public void onUpdatePercent(double percent) {
+        // TODO: Something
     }
 }
