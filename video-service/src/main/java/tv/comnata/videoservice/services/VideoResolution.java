@@ -32,6 +32,6 @@ public class VideoResolution implements Comparable<VideoResolution> {
 
     @Override
     public int compareTo(@NotNull VideoResolution o) {
-        return o.width - this.width;
+        return this.width - o.width;
     }
 }

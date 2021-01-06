@@ -63,10 +63,17 @@ public class VideoService implements FfmpegManager.OnUpdateProgressListener {
             try {
                 createDirectoryIfNotExists(realPath);
                 createDirectoryIfNotExists(realPath + name);
+                createDirectoryIfNotExists(realPath + name + "/240p");
+                createDirectoryIfNotExists(realPath + name + "/360p");
+                createDirectoryIfNotExists(realPath + name + "/480p");
+                createDirectoryIfNotExists(realPath + name + "/720p");
+                createDirectoryIfNotExists(realPath + name + "/1080p");
 
                 file.transferTo(new File(realPath + name + "/" + "original" + type));
 
-                splitVideoIntoSegments(realPath + name + "/", "original" + type);
+                FfmpegManager ffmpegManager =
+                        new FfmpegManager(realPath + name + "/", "original" + type, this);
+                ffmpegManager.start();
 
                 return "Вы успешно загрузили файл " + name + type;
             } catch (Exception e) {
@@ -79,6 +86,6 @@ public class VideoService implements FfmpegManager.OnUpdateProgressListener {
 
     @Override
     public void onUpdatePercent(double percent) {
-        // TODO: Something
+        System.out.printf("Progress: %.2f%%%n", percent);
     }
 }

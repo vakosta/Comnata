@@ -15,6 +15,7 @@ public class FfmpegManager extends Thread {
             new VideoResolution(1920, 1080),
     };
 
+    private static final String COMMAND_HLS_BASE = "ffmpeg -i %s";
     private static final String COMMAND_RESOLUTION =
             "ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 %s";
 
@@ -29,7 +30,7 @@ public class FfmpegManager extends Thread {
     }
 
     private VideoResolution getVideoResolution() throws IOException {
-        Process process = Runtime.getRuntime().exec(String.format(COMMAND_RESOLUTION, path, fileName));
+        Process process = Runtime.getRuntime().exec(String.format(COMMAND_RESOLUTION, path + fileName));
 
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String inputLine;
@@ -51,7 +52,7 @@ public class FfmpegManager extends Thread {
             }
 
             command.append(" -c:a aac -strict experimental -c:v libx264 ")
-                    .append("-s ").append(resolution).append(" ")
+                    .append("-s ").append(availableResolution).append(" ")
                     .append("-aspect 16:9 -f hls -hls_list_size 0 -hls_time 7 -threads 0 ")
                     .append(path).append(availableResolution.getHeight()).append("p/video.m3u8");
         }
@@ -76,19 +77,21 @@ public class FfmpegManager extends Thread {
             double totalSecs = Integer.parseInt(hms[0]) * 3600
                     + Integer.parseInt(hms[1]) * 60
                     + Double.parseDouble(hms[2]);
-            System.out.println("Total duration: " + totalSecs + " seconds.");
+            // System.out.println("Total duration: " + totalSecs + " seconds.");
 
             // Find time as long as possible.
             Pattern timePattern = Pattern.compile("(?<=time=)[\\d:.]*");
             String match;
-            while (null != (match = sc.findWithinHorizon(timePattern, 0))) {
-                double progress = Double.parseDouble(match) / totalSecs;
-                System.out.printf("Progress: %.2f%%%n", progress * 100);
+            String[] matchSplit;
+            while (!isInterrupted() && null != (match = sc.findWithinHorizon(timePattern, 0))) {
+                matchSplit = match.split(":");
+                double progress = (Integer.parseInt(matchSplit[0]) * 3600 +
+                        Integer.parseInt(matchSplit[1]) * 60 +
+                        Double.parseDouble(matchSplit[2])) / totalSecs;
                 listener.onUpdatePercent(progress * 100);
             }
         } catch (IOException exception) {
             exception.printStackTrace();
-            interrupt();
         }
     }
 
