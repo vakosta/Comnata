@@ -16,6 +16,8 @@ public class FfmpegManager extends Thread {
     };
 
     private static final String COMMAND_HLS_BASE = "ffmpeg -i %s";
+    private static final String COMMAND_HLS_ONE_RESOLUTION = " -c:a aac -strict experimental -c:v libx264 " +
+            "-s %s -aspect 16:9 -f hls -hls_list_size 0 -hls_time 10 -threads 0 %sp/video.m3u8";
     private static final String COMMAND_RESOLUTION =
             "ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 %s";
 
@@ -42,19 +44,17 @@ public class FfmpegManager extends Thread {
         throw new IOException();
     }
 
-    private String getCommand() throws IOException {
+    private String getHlsCommand() throws IOException {
         VideoResolution resolution = getVideoResolution();
-        StringBuilder command = new StringBuilder("ffmpeg -i " + path + fileName);
+        StringBuilder command = new StringBuilder(String.format(COMMAND_HLS_BASE, path + fileName));
 
         for (VideoResolution availableResolution : AVAILABLE_RESOLUTIONS) {
             if (resolution.compareTo(availableResolution) < 0) {
                 break;
             }
 
-            command.append(" -c:a aac -strict experimental -c:v libx264 ")
-                    .append("-s ").append(availableResolution).append(" ")
-                    .append("-aspect 16:9 -f hls -hls_list_size 0 -hls_time 7 -threads 0 ")
-                    .append(path).append(availableResolution.getHeight()).append("p/video.m3u8");
+            command.append(String.format(COMMAND_HLS_ONE_RESOLUTION, availableResolution,
+                    path + availableResolution.getHeight()));
         }
 
         return command.toString();
@@ -63,7 +63,7 @@ public class FfmpegManager extends Thread {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(getCommand().split(" "));
+            ProcessBuilder processBuilder = new ProcessBuilder(getHlsCommand().split(" "));
             final Process process = processBuilder.start();
             Scanner sc = new Scanner(process.getErrorStream());
 
