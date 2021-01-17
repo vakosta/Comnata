@@ -4,6 +4,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: websocket-server
+          uri: http://localhost:8188
+          predicates:
+            - Path=/ws/**
         - id: user-service
           uri: http://user-service:8191
           predicates:
