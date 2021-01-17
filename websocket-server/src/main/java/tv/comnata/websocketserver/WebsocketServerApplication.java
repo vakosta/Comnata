@@ -1,13 +1,11 @@
-package tv.comnata.websockerserver;
+package tv.comnata.websocketserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WebsockerServerApplication {
-
+public class WebsocketServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(WebsockerServerApplication.class, args);
+        SpringApplication.run(WebsocketServerApplication.class, args);
     }
-
 }

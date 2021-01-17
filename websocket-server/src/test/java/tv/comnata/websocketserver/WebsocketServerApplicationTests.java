@@ -1,10 +1,10 @@
-package tv.comnata.websockerserver;
+package tv.comnata.websocketserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WebsockerServerApplicationTests {
+class WebsocketServerApplicationTests {
 
     @Test
     void contextLoads() {

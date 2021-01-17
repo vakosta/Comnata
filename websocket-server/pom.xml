@@ -9,8 +9,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>websocker-server</artifactId>
-    <name>websocker-server</name>
+    <artifactId>websocket-server</artifactId>
+    <name>websocket-server</name>
 
     <dependencies>
         <dependency>

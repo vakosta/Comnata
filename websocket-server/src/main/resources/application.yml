@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: websocket-service
+
+server:
+  port: 8188
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}

@@ -6,7 +6,7 @@
     <modules>
         <module>eureka-server</module>
         <module>gateway-server</module>
-        <module>websocker-server</module>
+        <module>websocket-server</module>
         <module>auth-server</module>
         <module>user-service</module>
         <module>video-service</module>
