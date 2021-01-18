@@ -1,6 +1,6 @@
 package tv.comnata.websocketserver.entities;
 
-public class ChatMessage {
+public class AppMessage {
     private String id;
     private String chatId;
     private String senderId;
