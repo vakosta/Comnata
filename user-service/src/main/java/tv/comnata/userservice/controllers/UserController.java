@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class VideoController {
+public class UserController {
     @GetMapping("")
     public String test1() {
         return "Ok!";
