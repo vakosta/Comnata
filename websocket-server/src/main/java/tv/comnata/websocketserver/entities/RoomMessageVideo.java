@@ -1,6 +1,6 @@
 package tv.comnata.websocketserver.entities;
 
-public class RoomAction {
+public class RoomMessageVideo {
     private String roomId;
     private String senderId;
     private String action;
@@ -14,11 +14,11 @@ public class RoomAction {
         return senderId;
     }
 
-    public Action getAction() {
+    public VideoActionType getAction() {
         try {
-            return Action.valueOf(action.toLowerCase());
+            return VideoActionType.valueOf(action.toLowerCase());
         } catch (IllegalArgumentException exception) {
-            return Action.UNIDENTIFIED;
+            return VideoActionType.UNIDENTIFIED;
         }
     }
 
@@ -26,7 +26,7 @@ public class RoomAction {
         return data;
     }
 
-    enum Action {
+    enum VideoActionType {
         SEEK,
         PAUSE,
         RESUME,

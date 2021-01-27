@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import tv.comnata.websocketserver.entities.AppMessage;
 import tv.comnata.websocketserver.entities.AppNotification;
-import tv.comnata.websocketserver.entities.RoomAction;
+import tv.comnata.websocketserver.entities.RoomMessageChat;
+import tv.comnata.websocketserver.entities.RoomMessageVideo;
+
+import java.security.Principal;
 
 @Controller
 public class ChatController {
@@ -19,28 +22,46 @@ public class ChatController {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @MessageMapping("/app")
-    public void processAppMessage(@Payload AppMessage message) {
+    @MessageMapping("/base")
+    public void processAppMessage(Principal principal, @Payload AppMessage message) {
         messagingTemplate.convertAndSendToUser(
-                "/topic/app",
-                "/topic/app",
+                principal.getName(),
+                "/topic/base",
                 new AppNotification("123", "321", "kek")
         );
     }
 
-    @MessageMapping("/app/room/{roomId}/action")
-    public void processRoomAction(@PathVariable(value = "roomId") String roomId, @Payload RoomAction action) {
+    @MessageMapping("/room/{roomId}/videoAction")
+    public void processRoomVideoAction(@PathVariable(value = "roomId") String roomId, @Payload RoomMessageVideo action) {
         messagingTemplate.convertAndSend(
                 "/topic/room/" + roomId,
                 new AppNotification("123", "321", "kek")
         );
     }
 
-    @MessageMapping("/app/room/{roomId}/message")
-    public void processRoomMessage(@PathVariable(value = "roomId") String roomId, @Payload RoomAction action) {
+    @MessageMapping("/room/{roomId}/chatMessage")
+    public void processRoomChatMessage(@PathVariable(value = "roomId") String roomId,
+                                       @Payload RoomMessageChat chatMessage) {
         messagingTemplate.convertAndSend(
                 "/topic/room/" + roomId,
                 new AppNotification("123", "321", "kek")
+        );
+    }
+
+    @MessageMapping("/test")
+    public void processTest(@Payload AppMessage message) {
+        messagingTemplate.convertAndSend(
+                "/topic/test",
+                new AppNotification("123", "Public message", message.getName())
+        );
+    }
+
+    @MessageMapping("/testUser")
+    public void processTestUser(Principal principal, @Payload AppMessage message) {
+        messagingTemplate.convertAndSendToUser(
+                principal.getName(),
+                "/topic/test",
+                new AppNotification("123", "Personal message", message.getName())
         );
     }
 }

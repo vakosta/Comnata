@@ -1,4 +1,8 @@
 package tv.comnata.websocketserver.entities;
 
-public class RoomNotification {
+public interface RoomNotification {
+    public enum RoomNotificationType {
+        CHAT,
+        VIDEO
+    }
 }
