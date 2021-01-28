@@ -1,6 +1,8 @@
 package tv.comnata.videoservice.controllers;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tv.comnata.videoservice.services.VideoService;
@@ -26,14 +28,18 @@ public class VideoController {
         return "Ok!";
     }
 
-    @GetMapping("/getVideo/{video_name}")
-    public void getFile(HttpServletResponse response, @PathVariable("video_name") String videoName) {
+    @GetMapping(value = "/getVideo/{video_id}/{file_name}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public void getFile(
+            HttpServletResponse response,
+            @PathVariable("video_id") String videoId,
+            @PathVariable("file_name") String fileName
+    ) {
         try {
             // get your file as InputStream
-            InputStream is = new FileInputStream(String.format("/tmp/videos/%s/720p/video.m3u8", videoName));
+            InputStream is = new FileInputStream(String.format("/tmp/videos/%s/720p/%s", videoId, fileName));
 
             // copy it to response's OutputStream
-            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+            IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException ex) {
             throw new RuntimeException("IOError writing file to output stream");
