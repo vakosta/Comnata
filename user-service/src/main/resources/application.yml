@@ -9,6 +9,7 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
+    fetchRegistry: true
 
 security:
   oauth2:

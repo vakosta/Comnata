@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import tv.comnata.websocketserver.clients.UserClient;
 import tv.comnata.websocketserver.entities.AppMessage;
 import tv.comnata.websocketserver.entities.AppNotification;
 import tv.comnata.websocketserver.entities.RoomMessageChat;
@@ -17,9 +18,16 @@ import java.security.Principal;
 public class ChatController {
     private SimpMessagingTemplate messagingTemplate;
 
+    private UserClient userClient;
+
     @Autowired
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
+    }
+
+    @Autowired
+    public void setUserClient(UserClient userClient) {
+        this.userClient = userClient;
     }
 
     @MessageMapping("/base")
@@ -59,9 +67,8 @@ public class ChatController {
     @MessageMapping("/testUser")
     public void processTestUser(Principal principal, @Payload AppMessage message) {
         messagingTemplate.convertAndSendToUser(
-                principal.getName(),
-                "/topic/test",
-                new AppNotification("123", "Personal message", message.getName())
+                principal.getName(), "/topic/test",
+                userClient.test()
         );
     }
 }

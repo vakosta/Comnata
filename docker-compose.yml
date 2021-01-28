@@ -21,25 +21,42 @@ services:
 
   gateway-server:
     container_name: gateway-server
-    build: gateway-server
+    build:
+      context: gateway-server
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - "80:8762"
     networks:
       - eureka-network
 
-  # user-service:
-  #   container_name: user-service
-  #   build: user-service
-  #   restart: on-failure
-  #   ports:
-  #     - "8191:8191"
-  #   networks:
-  #     - eureka-network
+  websocket-server:
+    container_name: websocket-server
+    build:
+      context: websocket-server
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8188:8188"
+    networks:
+      - eureka-network
+
+  user-service:
+    container_name: user-service
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8191:8191"
+    networks:
+      - eureka-network
 
   video-service:
     container_name: video-service
-    build: video-service
+    build:
+      context: video-service
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - "8190:8190"

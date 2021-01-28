@@ -12,7 +12,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    let socket = new SockJS('http://127.0.0.1:8188/ws'); // Это адрес для подключения к WebSocket.
+    let socket = new SockJS('http://localhost/ws'); // Это адрес для подключения к WebSocket.
 
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
