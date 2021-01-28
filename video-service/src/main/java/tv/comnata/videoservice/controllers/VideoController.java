@@ -6,6 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 import tv.comnata.videoservice.services.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/video")
@@ -17,21 +21,23 @@ public class VideoController {
         this.videoService = videoService;
     }
 
-    @GetMapping("")
-    public String test1() {
-        return "Ok!";
-    }
-
     @GetMapping("/test")
     public String test2() {
         return "Ok!";
     }
 
-    @GetMapping("/getBroadcast")
-    public String getPart(
-            @RequestParam String videoId
-    ) {
-        return "Здесь можно будет получить файл.";
+    @GetMapping("/getVideo/{video_name}")
+    public void getFile(HttpServletResponse response, @PathVariable("video_name") String videoName) {
+        try {
+            // get your file as InputStream
+            InputStream is = new FileInputStream(String.format("/tmp/videos/%s/720p/video.m3u8", videoName));
+
+            // copy it to response's OutputStream
+            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException ex) {
+            throw new RuntimeException("IOError writing file to output stream");
+        }
     }
 
     @PostMapping("/upload")
@@ -39,7 +45,6 @@ public class VideoController {
             HttpServletRequest request,
             @RequestParam MultipartFile file
     ) {
-        return videoService.saveVideo(file, request.getServletContext()
-                .getRealPath("/" + VideoService.DIRECTORY_PATH + "/"));
+        return videoService.saveVideo(file, "/tmp/videos/");
     }
 }
