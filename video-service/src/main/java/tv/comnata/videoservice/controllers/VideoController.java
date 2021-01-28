@@ -1,21 +1,23 @@
 package tv.comnata.videoservice.controllers;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tv.comnata.videoservice.services.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
-@RestController
+@Controller
 @RequestMapping("/video")
 public class VideoController {
+    public static final String MEDIA_TYPE = "application/x-mpegURL";
+
     private VideoService videoService;
 
     @Autowired
@@ -23,29 +25,26 @@ public class VideoController {
         this.videoService = videoService;
     }
 
+    @ResponseBody
     @GetMapping("/test")
     public String test2() {
         return "Ok!";
     }
 
-    @GetMapping(value = "/getVideo/{video_id}/{file_name}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public void getFile(
+    @GetMapping(value = "/getVideo/{video_id}/{file_name}", produces = MEDIA_TYPE)
+    public ResponseEntity<FileSystemResource> getFile(
             HttpServletResponse response,
             @PathVariable("video_id") String videoId,
             @PathVariable("file_name") String fileName
     ) {
-        try {
-            // get your file as InputStream
-            InputStream is = new FileInputStream(String.format("/tmp/videos/%s/720p/%s", videoId, fileName));
+        final HttpHeaders headers = new HttpHeaders();
+        response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName));
 
-            // copy it to response's OutputStream
-            IOUtils.copy(is, response.getOutputStream());
-            response.flushBuffer();
-        } catch (IOException ex) {
-            throw new RuntimeException("IOError writing file to output stream");
-        }
+        String path = String.format("/tmp/videos/%s/720p/%s", videoId, fileName);
+        return new ResponseEntity<>(new FileSystemResource(path), headers, HttpStatus.OK);
     }
 
+    @ResponseBody
     @PostMapping("/upload")
     public String uploadFile(
             HttpServletRequest request,
