@@ -12,7 +12,7 @@ public class FfmpegManager extends Thread {
             new VideoResolution(640, 360),
             new VideoResolution(852, 480),
             new VideoResolution(1280, 720),
-            new VideoResolution(1920, 1080),
+            // new VideoResolution(1920, 1080),
     };
 
     private static final String COMMAND_HLS_BASE = "ffmpeg -i %s";
@@ -21,9 +21,9 @@ public class FfmpegManager extends Thread {
     private static final String COMMAND_RESOLUTION =
             "ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 %s";
 
-    private String path;
-    private String fileName;
-    private OnUpdateProgressListener listener;
+    private final String path;
+    private final String fileName;
+    private final OnUpdateProgressListener listener;
 
     public FfmpegManager(String path, String fileName, OnUpdateProgressListener listener) {
         this.path = path;
