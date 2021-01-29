@@ -4,12 +4,16 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: websocket-server
+          uri: http://websocket-server:8188
+          predicates:
+            - Path=/ws/**
         - id: user-service
           uri: http://user-service:8191
           predicates:
             - Path=/user/**
         - id: video-service
-          uri: http://localhost:8190
+          uri: http://video-service:8190
           predicates:
             - Path=/video/**
       discovery:

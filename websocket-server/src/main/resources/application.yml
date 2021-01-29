@@ -9,3 +9,8 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
+    fetchRegistry: true
+
+user-service:
+  ribbon:
+    listOfServers: http://localhost:8090

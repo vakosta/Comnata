@@ -2,6 +2,7 @@ FROM openjdk:14-jdk-alpine AS root
 
 EXPOSE 8190
 
+RUN apk add --no-cache htop
 RUN apk add --no-cache ffmpeg
 
 ARG JAR_FILE=target/*.jar
