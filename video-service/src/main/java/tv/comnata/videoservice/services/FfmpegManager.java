@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 
 public class FfmpegManager extends Thread {
     private static final VideoResolution[] AVAILABLE_RESOLUTIONS = {
-            new VideoResolution(426, 240),
+            // new VideoResolution(426, 240),
             new VideoResolution(640, 360),
-            new VideoResolution(852, 480),
-            new VideoResolution(1280, 720),
+            // new VideoResolution(852, 480),
+            // new VideoResolution(1280, 720),
             // new VideoResolution(1920, 1080),
     };
 
