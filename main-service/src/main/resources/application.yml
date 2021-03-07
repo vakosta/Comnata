@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: main-service
+
+server:
+  port: 8192
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
+    fetchRegistry: true
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:8880/auth/user
+    client:
+      client-id: flametoken
+      client-secret: thisissecret
