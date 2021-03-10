@@ -52,17 +52,6 @@ services:
     networks:
       - eureka-network
 
-  user-service:
-    container_name: user-service
-    build:
-      context: user-service
-      dockerfile: Dockerfile
-    restart: on-failure
-    ports:
-      - "8191:8191"
-    networks:
-      - eureka-network
-
   video-service:
     container_name: video-service
     build:

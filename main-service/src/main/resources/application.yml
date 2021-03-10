@@ -1,6 +1,19 @@
 spring:
   application:
     name: main-service
+  datasource:
+    url: postgres://crhxbecsivpbwv:2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5@ec2-54-247-158-179.eu-west-1.compute.amazonaws.com:5432/ddisr5jgg0qg2k
+    username: crhxbecsivpbwv
+    password: 2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5 # Don't worry about this.
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+  flyway:
+    url: postgres://crhxbecsivpbwv:2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5@ec2-54-247-158-179.eu-west-1.compute.amazonaws.com:5432/ddisr5jgg0qg2k
+    user: crhxbecsivpbwv
+    password: 2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5
+
 
 server:
   port: 8192
