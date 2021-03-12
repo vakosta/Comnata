@@ -5,11 +5,10 @@ import org.springframework.stereotype.Service
 import tv.comnata.mainservice.entities.User
 import tv.comnata.mainservice.repositories.UserRepository
 
-
 @Service
 class UserService(
     @Autowired
-    private var repository: UserRepository
+    private val repository: UserRepository
 ) {
     fun getUser(): User {
         val user = repository.findByUsername("Vakosta")

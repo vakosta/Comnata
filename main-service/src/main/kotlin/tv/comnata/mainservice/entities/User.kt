@@ -3,7 +3,7 @@ package tv.comnata.mainservice.entities
 import javax.persistence.*
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_user")
 class User(
     @Id
     @GeneratedValue
@@ -13,8 +13,10 @@ class User(
 
     var password: String,
 
-    var email: String,
+    var email: String?,
 
-    @ManyToOne
-    var room: Room,
+    var picture: String?,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    var room: Room?,
 )
