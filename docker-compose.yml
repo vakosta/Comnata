@@ -41,14 +41,14 @@ services:
     networks:
       - eureka-network
 
-  user-service:
-    container_name: user-service
+  main-service:
+    container_name: main-service
     build:
-      context: user-service
+      context: main-service
       dockerfile: Dockerfile
     restart: on-failure
     ports:
-      - "8191:8191"
+      - "8192:8192"
     networks:
       - eureka-network
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@CrossOrigin(origins = "*")
 @RequestMapping("/video")
 public class VideoController {
     public static final String MEDIA_TYPE = "application/x-mpegURL";
@@ -40,7 +41,7 @@ public class VideoController {
         final HttpHeaders headers = new HttpHeaders();
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName));
 
-        String path = String.format("/tmp/videos/%s/720p/%s", videoId, fileName);
+        String path = String.format("/tmp/videos/%s/360p/%s", videoId, fileName);
         return new ResponseEntity<>(new FileSystemResource(path), headers, HttpStatus.OK);
     }
 
