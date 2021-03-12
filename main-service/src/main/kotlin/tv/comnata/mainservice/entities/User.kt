@@ -7,7 +7,7 @@ import javax.persistence.*
 class User(
     @Id
     @GeneratedValue
-    var id: Int,
+    var id: Long? = null,
 
     var username: String,
 

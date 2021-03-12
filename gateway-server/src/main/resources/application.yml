@@ -9,9 +9,9 @@ spring:
           predicates:
             - Path=/ws/**
         - id: main-service
-            uri: http://main-service:8192
-            predicates:
-              - Path=/main/**
+          uri: http://main-service:8192
+          predicates:
+            - Path=/main/**
         - id: user-service
           uri: http://user-service:8191
           predicates:

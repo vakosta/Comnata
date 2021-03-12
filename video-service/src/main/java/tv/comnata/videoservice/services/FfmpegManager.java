@@ -88,7 +88,7 @@ public class FfmpegManager extends Thread {
                 double progress = (Integer.parseInt(matchSplit[0]) * 3600 +
                         Integer.parseInt(matchSplit[1]) * 60 +
                         Double.parseDouble(matchSplit[2])) / totalSecs;
-                listener.onUpdatePercent(progress * 100);
+                listener.onUpdatePercent(fileName, progress * 100);
             }
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -96,6 +96,6 @@ public class FfmpegManager extends Thread {
     }
 
     interface OnUpdateProgressListener {
-        void onUpdatePercent(double percent);
+        void onUpdatePercent(String videoUuid, double percent);
     }
 }

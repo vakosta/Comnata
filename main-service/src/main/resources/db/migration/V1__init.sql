@@ -2,7 +2,7 @@
 
 CREATE TABLE room
 (
-    id            INT       NOT NULL,
+    id            BIGINT    NOT NULL,
     name          VARCHAR(50),
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
 
@@ -11,13 +11,15 @@ CREATE TABLE room
 
 CREATE TABLE video
 (
-    id       INT         NOT NULL,
-    name     VARCHAR(20) NOT NULL,
-    status   SMALLINT    NOT NULL,
-    priority SMALLINT    NOT NULL,
-    room_id  INT         NOT NULL,
+    id       BIGINT       NOT NULL,
+    uuid     VARCHAR(100) NOT NULL,
+    name     VARCHAR(20)  NOT NULL,
+    priority SMALLINT     NOT NULL,
+    status   SMALLINT     NOT NULL,
+    progress SMALLINT,
+    room_id  INT          NOT NULL,
 
-    PRIMARY KEY (id),
+    PRIMARY KEY (id, uuid),
 
     FOREIGN KEY (room_id) REFERENCES room (id)
         ON DELETE CASCADE
@@ -26,7 +28,7 @@ CREATE TABLE video
 
 CREATE TABLE message
 (
-    id            INT          NOT NULL,
+    id            BIGINT       NOT NULL,
     text          VARCHAR(100) NOT NULL,
     creation_date TIMESTAMP    NOT NULL DEFAULT NOW(),
     room_id       INT          NOT NULL,
@@ -43,7 +45,7 @@ CREATE TABLE message
 
 CREATE TABLE app_user
 (
-    id                INT         NOT NULL,
+    id                BIGINT      NOT NULL,
     username          VARCHAR(30) NOT NULL,
     password          CHAR(80)    NOT NULL,
     email             VARCHAR(80),
@@ -61,7 +63,7 @@ CREATE TABLE app_user
 
 CREATE TABLE role
 (
-    id   INT          NOT NULL,
+    id   BIGINT       NOT NULL,
     name VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (id)
@@ -69,8 +71,8 @@ CREATE TABLE role
 
 CREATE TABLE user_to_role
 (
-    user_id INT NOT NULL,
-    role_id INT NOT NULL,
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
 
     PRIMARY KEY (user_id, role_id),
 
@@ -85,8 +87,8 @@ CREATE TABLE user_to_role
 
 CREATE TABLE room_to_user
 (
-    room_id INT NOT NULL,
-    user_id INT NOT NULL,
+    room_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
 
     PRIMARY KEY (room_id, user_id),
 
@@ -106,10 +108,10 @@ INSERT INTO room (id)
 VALUES (1),
        (2);
 
-INSERT INTO video (id, name, status, priority, room_id)
-VALUES (1, 'video1', 1, 2, 1),
-       (2, 'video2', 1, 1, 2),
-       (3, 'video3', 1, 1, 1);
+INSERT INTO video (id, uuid, name, status, priority, room_id)
+VALUES (1, '123', 'video1', 1, 2, 1),
+       (2, '321', 'video2', 1, 1, 2),
+       (3, '213', 'video3', 1, 1, 1);
 
 INSERT INTO message (id, text, room_id)
 VALUES (1, 'kek', 1),
