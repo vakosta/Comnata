@@ -22,6 +22,7 @@ class VideoService(
             status = 1,
             room = roomRepository.findRoomById(1)!!
         )
+        videoRepository.save(video)
     }
 
     fun setVideoProgress(videoUuid: String, videoProgress: Int) {

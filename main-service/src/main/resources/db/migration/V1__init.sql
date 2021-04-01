@@ -11,7 +11,6 @@ CREATE TABLE room
 
 CREATE TABLE video
 (
-    id       BIGINT       NOT NULL,
     uuid     VARCHAR(100) NOT NULL,
     name     VARCHAR(20)  NOT NULL,
     priority SMALLINT     NOT NULL,
@@ -19,7 +18,7 @@ CREATE TABLE video
     progress SMALLINT,
     room_id  INT          NOT NULL,
 
-    PRIMARY KEY (id, uuid),
+    PRIMARY KEY (uuid),
 
     FOREIGN KEY (room_id) REFERENCES room (id)
         ON DELETE CASCADE
@@ -108,10 +107,10 @@ INSERT INTO room (id)
 VALUES (1),
        (2);
 
-INSERT INTO video (id, uuid, name, status, priority, room_id)
-VALUES (1, '123', 'video1', 1, 2, 1),
-       (2, '321', 'video2', 1, 1, 2),
-       (3, '213', 'video3', 1, 1, 1);
+INSERT INTO video (uuid, name, status, priority, room_id)
+VALUES ('123', 'video1', 1, 2, 1),
+       ('321', 'video2', 1, 1, 2),
+       ('213', 'video3', 1, 1, 1);
 
 INSERT INTO message (id, text, room_id)
 VALUES (1, 'kek', 1),

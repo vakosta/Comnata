@@ -68,6 +68,7 @@ public class VideoService implements FfmpegManager.OnUpdateProgressListener {
     @Override
     public void onUpdatePercent(String videoUuid, double percent) {
         logger.debug(String.format("Progress: %.2f%%%n", percent));
+        System.out.println((String.format("Progress: %.2f%%%n", percent)));
 
         mainClient.setVideoProgress(videoUuid, (int) (percent * 100));
     }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("main-service")
 public interface MainClient {
     @RequestMapping("/main/createVideo")
-    String createVideo(String videoUuid);
+    String createVideo(@RequestParam String videoUuid);
 
     @RequestMapping("/main/setVideoProgress")
     String setVideoProgress(@RequestParam String videoUuid, @RequestParam int videoProgress);
