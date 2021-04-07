@@ -15,7 +15,7 @@ spring:
     password: 2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5
   cloud:
     kubernetes:
-      enabled: true
+      enabled: false
 
 server:
   port: 8192
@@ -27,7 +27,7 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
     fetchRegistry: true
-    enabled: false
+    enabled: true
 
 security:
   oauth2:
