@@ -13,16 +13,21 @@ spring:
     url: postgres://crhxbecsivpbwv:2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5@ec2-54-247-158-179.eu-west-1.compute.amazonaws.com:5432/ddisr5jgg0qg2k
     user: crhxbecsivpbwv
     password: 2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5
-
+  cloud:
+    kubernetes:
+      enabled: true
 
 server:
   port: 8192
+  servlet:
+    context-path: /main
 
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
     fetchRegistry: true
+    enabled: false
 
 security:
   oauth2:
