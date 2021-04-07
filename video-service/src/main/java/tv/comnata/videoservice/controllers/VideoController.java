@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @CrossOrigin(origins = "*")
-@RequestMapping("/video")
 public class VideoController {
     public static final String MEDIA_TYPE = "application/x-mpegURL";
 
