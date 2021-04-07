@@ -9,7 +9,6 @@
         <module>websocket-server</module>
         <module>auth-server</module>
         <module>main-service</module>
-        <module>user-service</module>
         <module>video-service</module>
     </modules>
 
