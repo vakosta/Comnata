@@ -15,7 +15,7 @@ spring:
     password: 2a66eec5f7d9756b445b5113fca7eea05ec321160b627d37a8e51b5cae598dd5
   cloud:
     kubernetes:
-      enabled: true
+      enabled: false
 
 server:
   port: 8192
@@ -25,14 +25,14 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
     fetchRegistry: true
-    enabled: false
+    enabled: true
 
 security:
   oauth2:
     resource:
-      userInfoUri: http://localhost:8880/auth/user
+      userInfoUri: ${AUTH_URI:http://localhost:8880/auth/user}
     client:
       client-id: flametoken
       client-secret: thisissecret

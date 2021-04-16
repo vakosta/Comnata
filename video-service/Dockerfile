@@ -2,6 +2,8 @@ FROM openjdk:14-jdk-alpine AS root
 
 EXPOSE 8190
 
+ENV EUREKA_URI=http://eureka-server:8761/eureka
+
 RUN apk add --no-cache htop
 RUN apk add --no-cache ffmpeg
 
