@@ -12,10 +12,7 @@ spring:
           uri: http://localhost:8192
           predicates:
             - Path=/main/**
-        - id: user-service
-          uri: http://localhost:8191
-          predicates:
-            - Path=/user/**
+            - Path=/ws/**
         - id: video-service
           uri: http://localhost:8190
           predicates:

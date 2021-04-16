@@ -1,4 +1,4 @@
-package tv.comnata.websocketserver.entities;
+package tv.comnata.mainservice.entities.websocket;
 
 public class RoomMessageVideo {
     private String roomId;
