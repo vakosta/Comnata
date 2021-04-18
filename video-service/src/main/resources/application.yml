@@ -1,6 +1,9 @@
 spring:
   application:
     name: video-service
+  cloud:
+    kubernetes:
+      enabled: false
 
 server:
   port: 8190
@@ -10,7 +13,8 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    enabled: true
 
 security:
   oauth2:

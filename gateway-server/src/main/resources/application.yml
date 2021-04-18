@@ -5,19 +5,16 @@ spring:
     gateway:
       routes:
         - id: websocket-server
-          uri: http://websocket-server:8188
+          uri: http://localhost:8188
           predicates:
             - Path=/ws/**
         - id: main-service
-          uri: http://main-service:8192
+          uri: http://localhost:8192
           predicates:
             - Path=/main/**
-        - id: user-service
-          uri: http://user-service:8191
-          predicates:
-            - Path=/user/**
+            - Path=/ws/**
         - id: video-service
-          uri: http://video-service:8190
+          uri: http://localhost:8190
           predicates:
             - Path=/video/**
       discovery:
@@ -37,4 +34,4 @@ eureka:
     registerWithEureka: false
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: ${EUREKA_URI:http://eureka-server:8761/eureka}
