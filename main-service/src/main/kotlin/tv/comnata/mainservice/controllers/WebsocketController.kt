@@ -9,16 +9,21 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PathVariable
 import tv.comnata.mainservice.entities.websocket.AppMessage
 import tv.comnata.mainservice.entities.websocket.AppNotification
-import tv.comnata.mainservice.entities.websocket.RoomMessageVideo
+import tv.comnata.mainservice.entities.websocket.requests.RoomActionRequest
+import tv.comnata.mainservice.entities.websocket.requests.RoomChatMessageRequest
+import tv.comnata.mainservice.services.RoomService
 import java.security.Principal
 
 @Controller
 class WebsocketController(
     @Autowired
-    private val messagingTemplate: SimpMessagingTemplate
+    private val messagingTemplate: SimpMessagingTemplate,
+
+    @Autowired
+    private val roomService: RoomService,
 ) {
     @MessageMapping("/base")
-    fun processAppMessage(principal: Principal, @Payload message: AppMessage?) {
+    fun processAppMessage(principal: Principal, @Payload message: AppMessage) {
         messagingTemplate.convertAndSendToUser(
             principal.name,
             "/topic/base",
@@ -28,24 +33,20 @@ class WebsocketController(
 
     @MessageMapping("/room/{roomId}/videoAction")
     fun processRoomVideoAction(
-        @PathVariable(value = "roomId") roomId: String,
-        @Payload action: RoomMessageVideo?
+        principal: Principal,
+        @PathVariable(value = "roomId") roomId: Int,
+        @Payload action: RoomActionRequest
     ) {
-        messagingTemplate.convertAndSend(
-            "/topic/room/$roomId",
-            AppNotification("123", "321", "kek")
-        )
+        roomService.processRoomVideoAction(principal.name, roomId, action)
     }
 
     @MessageMapping("/room/{roomId}/chatMessage")
     fun processRoomChatMessage(
-        @DestinationVariable roomId: String,
-        @Payload chatMessage: AppMessage
+        principal: Principal,
+        @DestinationVariable roomId: Int,
+        @Payload chatMessage: RoomChatMessageRequest
     ) {
-        messagingTemplate.convertAndSend(
-            "/topic/room/$roomId",
-            AppNotification("123", "321", "kek")
-        )
+        roomService.processRoomChatMessage(principal.name, roomId, chatMessage)
     }
 
     @MessageMapping("/test")

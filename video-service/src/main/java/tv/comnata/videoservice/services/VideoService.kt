@@ -1,75 +1,73 @@
-package tv.comnata.videoservice.services;
+package tv.comnata.videoservice.services
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import tv.comnata.videoservice.clients.MainClient;
-
-import java.io.File;
-import java.util.Objects;
-import java.util.UUID;
+import feign.FeignException
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
+import tv.comnata.videoservice.clients.MainClient
+import tv.comnata.videoservice.entities.VideoUploadResponse
+import tv.comnata.videoservice.entities.VideoUploadResponseError
+import tv.comnata.videoservice.entities.VideoUploadResponseSuccess
+import tv.comnata.videoservice.services.FfmpegManager.OnUpdateProgressListener
+import java.io.File
+import java.io.IOException
+import java.util.*
 
 @Service
-public class VideoService implements FfmpegManager.OnUpdateProgressListener {
-    public static final String DIRECTORY_PATH = "videos";
-
-    private static final Logger logger = LoggerFactory.getLogger(VideoService.class);
-    private MainClient mainClient;
-
+class VideoService(
     @Autowired
-    public void setMainClient(MainClient mainClient) {
-        this.mainClient = mainClient;
-    }
-
-    private void createDirectoryIfNotExists(String realPath) {
-        File theDir = new File(realPath);
-        if (!theDir.exists())
-            theDir.mkdirs();
-    }
-
-    private void createWorkDirectories(String realPath, String videoId) {
-        createDirectoryIfNotExists(realPath);
-        createDirectoryIfNotExists(realPath + videoId);
-        createDirectoryIfNotExists(realPath + videoId + "/240p");
-        createDirectoryIfNotExists(realPath + videoId + "/360p");
-        createDirectoryIfNotExists(realPath + videoId + "/480p");
-        createDirectoryIfNotExists(realPath + videoId + "/720p");
-        createDirectoryIfNotExists(realPath + videoId + "/1080p");
-    }
-
-    public String saveVideo(MultipartFile file, String realPath) {
-        String[] separatedName = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
-
-        String videoUuid = UUID.randomUUID().toString().replace("-", "");
-        String type = "." + separatedName[separatedName.length - 1];
-
-        mainClient.createVideo(videoUuid);
-
-        if (!file.isEmpty() && separatedName.length > 1) {
-            try {
-                createWorkDirectories(realPath, videoUuid);
-
-                file.transferTo(new File(realPath + videoUuid + "/" + "original" + type));
-                FfmpegManager ffmpegManager =
-                        new FfmpegManager(realPath + videoUuid + "/", "original" + type, this);
-                ffmpegManager.start();
-
-                return "Вы успешно загрузили файл " + videoUuid + type;
-            } catch (Exception e) {
-                return "Вам не удалось загрузить " + videoUuid + type + " => " + e.getMessage();
-            }
+    private var mainClient: MainClient
+) : OnUpdateProgressListener {
+    private fun createDirectoryIfNotExists(realPath: String) {
+        val theDir = File(realPath)
+        if (!theDir.exists()) {
+            theDir.mkdirs()
         }
-
-        return "Файл пустой.";
     }
 
-    @Override
-    public void onUpdatePercent(String videoUuid, double percent) {
-        logger.debug(String.format("Progress: %.2f%%%n", percent));
-        System.out.println((String.format("Progress: %.2f%%%n", percent)));
+    private fun createWorkDirectories(realPath: String, videoId: String) {
+        createDirectoryIfNotExists(realPath)
+        createDirectoryIfNotExists(realPath + videoId)
+        createDirectoryIfNotExists("$realPath$videoId/240p")
+        createDirectoryIfNotExists("$realPath$videoId/360p")
+        createDirectoryIfNotExists("$realPath$videoId/480p")
+        createDirectoryIfNotExists("$realPath$videoId/720p")
+        createDirectoryIfNotExists("$realPath$videoId/1080p")
+    }
 
-        mainClient.setVideoProgress(videoUuid, (int) (percent * 100));
+    fun saveVideo(file: MultipartFile, realPath: String): VideoUploadResponse {
+        val separatedName = file.originalFilename!!.split(".")
+        val videoUuid = UUID.randomUUID().toString().replace("-", "")
+        val type = "." + separatedName[separatedName.size - 1]
+
+        return try {
+            mainClient.createVideo(videoUuid)
+            if (!file.isEmpty && separatedName.size > 1) {
+                createWorkDirectories(realPath, videoUuid)
+                file.transferTo(File("$realPath$videoUuid/original$type"))
+
+                val ffmpegManager = FfmpegManager("$realPath$videoUuid/", "original$type", this)
+                ffmpegManager.start()
+
+                return VideoUploadResponseSuccess(videoUuid, "/video/getVideo/$videoUuid/video.m3u8")
+            }
+            VideoUploadResponseError("File is empty.")
+        } catch (exception: IOException) {
+            VideoUploadResponseError(exception.message!!)
+        } catch (exception: FeignException) {
+            VideoUploadResponseError(exception.message!!)
+        }
+    }
+
+    override fun onUpdatePercent(videoUuid: String, percent: Double) {
+        logger.info("Video $videoUuid: ${"%.2f".format(percent)}%")
+        mainClient.setVideoProgress(videoUuid, (percent * 100).toInt())
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(VideoService::class.java)
+
+        const val DIRECTORY_PATH = "videos"
     }
 }
