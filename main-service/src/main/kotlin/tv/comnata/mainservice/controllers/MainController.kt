@@ -7,7 +7,7 @@ import tv.comnata.mainservice.services.UserService
 import tv.comnata.mainservice.services.VideoService
 
 @RestController
-@RequestMapping("/main")
+// @RequestMapping("/main")
 class MainController(
     @Autowired
     private val userService: UserService,

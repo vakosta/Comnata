@@ -1,9 +1,5 @@
-package tv.comnata.mainservice.entities.websocket;
+package tv.comnata.mainservice.entities.websocket
 
-public class AppMessage {
-    private String name;
-
-    public String getName() {
-        return name;
-    }
+class AppMessage {
+    val name: String? = null
 }
