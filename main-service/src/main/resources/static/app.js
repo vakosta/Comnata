@@ -12,7 +12,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    let socket = new SockJS('http://localhost:8192/ws'); // Это адрес для подключения к WebSocket.
+    let socket = new SockJS('http://localhost:8192/main/ws'); // Это адрес для подключения к WebSocket.
 
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -50,7 +50,7 @@ function sendName() {
 
     // stompClient.send("/app/testUser", {}, JSON.stringify({'name': $("#name").val()}));
 
-    stompClient.send("/app/room/123/chatMessage", {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/room/123/chatMessage", {}, JSON.stringify({'text': $("#name").val()}));
 }
 
 function showGreeting(message) {

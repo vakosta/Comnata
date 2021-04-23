@@ -18,14 +18,14 @@ class RoomService(
     fun processRoomVideoAction(userId: String, roomId: Int, action: RoomActionRequest) {
         messagingTemplate.convertAndSend(
             "/topic/room/$roomId",
-            RoomActionResponse(userId, action.seekTime, LocalDateTime.now(), action.type.getAction())
+            RoomActionResponse(userId, action.seekTime!!, LocalDateTime.now(), action.type!!.getAction())
         )
     }
 
     fun processRoomChatMessage(userId: String, roomId: Int, action: RoomChatMessageRequest) {
         messagingTemplate.convertAndSend(
             "/topic/room/$roomId",
-            RoomChatMessageResponse(userId, action.text, LocalDateTime.now())
+            RoomChatMessageResponse(userId, action.text!!, LocalDateTime.now())
         )
     }
 }
