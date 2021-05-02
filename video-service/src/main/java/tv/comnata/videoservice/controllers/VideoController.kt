@@ -19,12 +19,6 @@ class VideoController(
     @Autowired
     private var videoService: VideoService,
 ) {
-    @ResponseBody
-    @GetMapping("/test")
-    fun test2(): String {
-        return "Ok!"
-    }
-
     @GetMapping(value = ["/getVideo/{video_id}/{file_name}"], produces = [MEDIA_TYPE])
     fun getFile(
         response: HttpServletResponse,

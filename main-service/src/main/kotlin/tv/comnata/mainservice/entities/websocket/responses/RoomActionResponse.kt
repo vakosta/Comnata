@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class RoomActionResponse(
     val actor: String,
-    val seekTime: Int,
+    val seekTime: Long,
     val actionTime: LocalDateTime,
     val type: ActionType,
 ) : Response(NotificationType.ACTION) {

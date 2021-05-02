@@ -19,10 +19,15 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
 
-        // "/topic/room/123" — адрес, который будет проверяться на наличие обновлений.
-        stompClient.subscribe('/topic/room/123', function (greeting) {
+        // "/topic/room/123/actions" — адрес, который будет проверяться на наличие обновлений.
+        stompClient.subscribe('/topic/room/123/actions', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        stompClient.subscribe('/topic/room/123/messages', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+
+        // !!! Адреса сабскрайберов ниже чисто тестовые, практической пользы не несут.
         // "/user/topic/test" — адрес, который будет проверяться на наличие обновлений.
         stompClient.subscribe('/user/topic/test', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);

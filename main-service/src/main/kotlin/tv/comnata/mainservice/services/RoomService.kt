@@ -17,15 +17,20 @@ class RoomService(
 ) {
     fun processRoomVideoAction(userId: String, roomId: Int, action: RoomActionRequest) {
         messagingTemplate.convertAndSend(
-            "/topic/room/$roomId",
+            URL_ROOM_ACTIONS.format(roomId),
             RoomActionResponse(userId, action.seekTime!!, LocalDateTime.now(), action.type!!.getAction())
         )
     }
 
     fun processRoomChatMessage(userId: String, roomId: Int, action: RoomChatMessageRequest) {
         messagingTemplate.convertAndSend(
-            "/topic/room/$roomId",
+            URL_ROOM_MESSAGES.format(roomId),
             RoomChatMessageResponse(userId, action.text!!, LocalDateTime.now())
         )
+    }
+
+    companion object {
+        private const val URL_ROOM_ACTIONS = "/topic/room/%s/actions"
+        private const val URL_ROOM_MESSAGES = "/topic/room/%s/messages"
     }
 }
