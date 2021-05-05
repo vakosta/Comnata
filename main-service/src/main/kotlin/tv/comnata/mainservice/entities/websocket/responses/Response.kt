@@ -4,7 +4,9 @@ abstract class Response(
     val notificationType: NotificationType,
 ) {
     enum class NotificationType {
-        ACTION,
+        JOIN,
+        VIDEO_ACTION,
         CHAT_MESSAGE,
+        REACTION,
     }
 }

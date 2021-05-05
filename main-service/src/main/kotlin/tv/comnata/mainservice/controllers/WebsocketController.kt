@@ -1,37 +1,34 @@
 package tv.comnata.mainservice.controllers
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
-import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import tv.comnata.mainservice.entities.websocket.AppMessage
-import tv.comnata.mainservice.entities.websocket.AppNotification
+import tv.comnata.mainservice.entities.websocket.getActionType
+import tv.comnata.mainservice.entities.websocket.getReaction
 import tv.comnata.mainservice.entities.websocket.requests.RoomActionRequest
 import tv.comnata.mainservice.entities.websocket.requests.RoomChatMessageRequest
+import tv.comnata.mainservice.entities.websocket.requests.RoomReactionRequest
 import tv.comnata.mainservice.services.RoomService
 import java.security.Principal
 
 @Controller
 class WebsocketController(
     @Autowired
-    private val messagingTemplate: SimpMessagingTemplate,
-
-    @Autowired
     private val roomService: RoomService,
 ) {
-    @RequestMapping(URL_BASE, method = [RequestMethod.POST])
-    @MessageMapping(URL_BASE)
-    fun processAppMessage(principal: Principal, @Payload message: AppMessage) {
-        messagingTemplate.convertAndSendToUser(
-            principal.name,
-            "/topic/base",
-            AppNotification("123", "321", "kek")
-        )
+    @RequestMapping(URL_ROOM_JOIN, method = [RequestMethod.POST])
+    @MessageMapping(URL_ROOM_JOIN)
+    fun processRoomJoin(
+        principal: Principal,
+        @DestinationVariable roomId: Int,
+    ) {
+        logger.info("Controller — JOIN")
+        roomService.processVideoJoin(principal.name, roomId)
     }
 
     @RequestMapping(URL_ROOM_VIDEO_ACTION, method = [RequestMethod.POST])
@@ -39,9 +36,10 @@ class WebsocketController(
     fun processRoomVideoAction(
         principal: Principal,
         @DestinationVariable roomId: Int,
-        @Payload action: RoomActionRequest
+        @Payload request: RoomActionRequest
     ) {
-        roomService.processRoomVideoAction(principal.name, roomId, action)
+        logger.info("Controller — VIDEO ACTION")
+        roomService.processRoomVideoAction(principal.name, roomId, request.seekTime!!, request.type!!.getActionType())
     }
 
     @RequestMapping(URL_ROOM_CHAT_MESSAGE, method = [RequestMethod.POST])
@@ -49,34 +47,29 @@ class WebsocketController(
     fun processRoomChatMessage(
         principal: Principal,
         @DestinationVariable roomId: Int,
-        @Payload chatMessage: RoomChatMessageRequest
+        @Payload request: RoomChatMessageRequest
     ) {
-        roomService.processRoomChatMessage(principal.name, roomId, chatMessage)
+        logger.info("Controller — CHAT MESSAGE")
+        roomService.processRoomChatMessage(principal.name, roomId, request.text!!)
     }
 
-    @RequestMapping(URL_TEST, method = [RequestMethod.POST])
-    @MessageMapping(URL_TEST)
-    fun processTest(@Payload message: AppMessage) {
-        messagingTemplate.convertAndSend(
-            "/topic/test",
-            AppNotification("123", "Public message", message.name)
-        )
-    }
-
-    @RequestMapping(URL_TEST_USER, method = [RequestMethod.POST])
-    @MessageMapping(URL_TEST_USER)
-    fun processTestUser(principal: Principal, @Payload message: AppMessage) {
-        messagingTemplate.convertAndSendToUser(
-            principal.name, "/topic/test",
-            "userClient.test()"
-        )
+    @RequestMapping(URL_ROOM_REACTION, method = [RequestMethod.POST])
+    @MessageMapping(URL_ROOM_REACTION)
+    fun processRoomReaction(
+        principal: Principal,
+        @DestinationVariable roomId: Int,
+        @Payload request: RoomReactionRequest
+    ) {
+        logger.info("Controller — REACTION")
+        roomService.processRoomReaction(principal.name, roomId, request.reaction!!.getReaction())
     }
 
     companion object {
-        const val URL_BASE = "/base"
+        private val logger = LoggerFactory.getLogger(WebsocketController::class.java)
+
+        const val URL_ROOM_JOIN = "/room/{roomId}/join"
         const val URL_ROOM_VIDEO_ACTION = "/room/{roomId}/videoAction"
         const val URL_ROOM_CHAT_MESSAGE = "/room/{roomId}/chatMessage"
-        const val URL_TEST = "/test"
-        const val URL_TEST_USER = "/testUser"
+        const val URL_ROOM_REACTION = "/room/{roomId}/reaction"
     }
 }
