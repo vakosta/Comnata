@@ -55,7 +55,11 @@ function sendName() {
 
     // stompClient.send("/app/testUser", {}, JSON.stringify({'name': $("#name").val()}));
 
-    stompClient.send("/app/room/123/chatMessage", {}, JSON.stringify({'text': $("#name").val()}));
+    stompClient.send("/app/room/123/videoAction", {}, JSON.stringify({
+        'seekTime': parseInt($("#name").val()),
+        'type': 'PAUSE'
+    }));
+    // stompClient.send("/app/room/123/chatMessage", {}, JSON.stringify({'text': $("#name").val()}));
 }
 
 function showGreeting(message) {

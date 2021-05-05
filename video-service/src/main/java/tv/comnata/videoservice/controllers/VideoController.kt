@@ -20,14 +20,27 @@ class VideoController(
     private var videoService: VideoService,
 ) {
     @GetMapping(value = ["/getVideo/{video_id}/{file_name}"], produces = [MEDIA_TYPE])
-    fun getFile(
+    fun getBaseFile(
         response: HttpServletResponse,
         @PathVariable("video_id") videoId: String,
-        @PathVariable("file_name") fileName: String
+        @PathVariable("file_name") fileName: String,
     ): ResponseEntity<FileSystemResource> {
         val headers = HttpHeaders()
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
-        val path = String.format("/tmp/videos/%s/360p/%s", videoId, fileName)
+        val path = "/tmp/videos/$videoId/$fileName"
+        return ResponseEntity(FileSystemResource(path), headers, HttpStatus.OK)
+    }
+
+    @GetMapping(value = ["/getVideo/{video_id}/{resolution}/{file_name}"], produces = [MEDIA_TYPE])
+    fun getVideoFile(
+        response: HttpServletResponse,
+        @PathVariable("video_id") videoId: String,
+        @PathVariable("resolution") resolution: String,
+        @PathVariable("file_name") fileName: String,
+    ): ResponseEntity<FileSystemResource> {
+        val headers = HttpHeaders()
+        response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
+        val path = "/tmp/videos/$videoId/$resolution/$fileName"
         return ResponseEntity(FileSystemResource(path), headers, HttpStatus.OK)
     }
 

@@ -11,8 +11,8 @@ public class FfmpegManager extends Thread {
             new VideoResolution(426, 240),
             new VideoResolution(640, 360),
             new VideoResolution(852, 480),
-            // new VideoResolution(1280, 720),
-            // new VideoResolution(1920, 1080),
+            new VideoResolution(1280, 720),
+            new VideoResolution(1920, 1080),
     };
 
     private static final String COMMAND_HLS_BASE = "ffmpeg -i %s";
@@ -31,7 +31,7 @@ public class FfmpegManager extends Thread {
         this.listener = listener;
     }
 
-    private VideoResolution getVideoResolution() throws IOException {
+    VideoResolution getVideoResolution() throws IOException {
         Process process = Runtime.getRuntime().exec(String.format(COMMAND_RESOLUTION, path + fileName));
 
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));

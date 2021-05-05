@@ -3,11 +3,11 @@ package tv.comnata.mainservice.services
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
+import tv.comnata.mainservice.entities.websocket.getAction
 import tv.comnata.mainservice.entities.websocket.requests.RoomActionRequest
 import tv.comnata.mainservice.entities.websocket.requests.RoomChatMessageRequest
 import tv.comnata.mainservice.entities.websocket.responses.RoomActionResponse
 import tv.comnata.mainservice.entities.websocket.responses.RoomChatMessageResponse
-import tv.comnata.mainservice.entities.websocket.responses.getAction
 import java.time.LocalDateTime
 
 @Service

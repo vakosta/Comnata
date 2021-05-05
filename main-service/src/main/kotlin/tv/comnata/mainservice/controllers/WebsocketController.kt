@@ -38,7 +38,7 @@ class WebsocketController(
     @MessageMapping(URL_ROOM_VIDEO_ACTION)
     fun processRoomVideoAction(
         principal: Principal,
-        @PathVariable(value = "roomId") roomId: Int,
+        @DestinationVariable roomId: Int,
         @Payload action: RoomActionRequest
     ) {
         roomService.processRoomVideoAction(principal.name, roomId, action)

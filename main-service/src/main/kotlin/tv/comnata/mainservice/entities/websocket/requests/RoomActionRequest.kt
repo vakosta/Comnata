@@ -1,9 +1,6 @@
 package tv.comnata.mainservice.entities.websocket.requests
 
-import java.time.LocalDateTime
-
 class RoomActionRequest {
-    val seekTime: Long? = null
-    val actionTime: LocalDateTime? = null
+    val seekTime: Int? = null
     val type: String? = null
 }

@@ -12,6 +12,10 @@ import tv.comnata.videoservice.entities.VideoUploadResponseSuccess
 import tv.comnata.videoservice.services.FfmpegManager.OnUpdateProgressListener
 import java.io.File
 import java.io.IOException
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.*
 
 @Service
@@ -24,6 +28,27 @@ class VideoService(
         if (!theDir.exists()) {
             theDir.mkdirs()
         }
+    }
+
+    private fun createBaseFile(path: String, videoId: String, videoResolution: VideoResolution) {
+        val resolutions = listOf(240, 360, 480, 720, 1080)
+
+        val contentBuilder = arrayListOf<String>()
+        contentBuilder.add("#EXTM3U")
+
+        for (resolution in resolutions) {
+            if (videoResolution.height >= resolution) {
+                contentBuilder.add(
+                    VideoResolution(
+                        videoResolution.width / videoResolution.height * resolution,
+                        resolution
+                    ).getBaseFileText()
+                )
+            }
+        }
+
+        val file: Path = Paths.get("$path$videoId/video.m3u8")
+        Files.write(file, contentBuilder, StandardCharsets.UTF_8)
     }
 
     private fun createWorkDirectories(realPath: String, videoId: String) {
@@ -48,6 +73,8 @@ class VideoService(
                 file.transferTo(File("$realPath$videoUuid/original$type"))
 
                 val ffmpegManager = FfmpegManager("$realPath$videoUuid/", "original$type", this)
+                createBaseFile(realPath, videoUuid, ffmpegManager.videoResolution)
+
                 ffmpegManager.start()
 
                 return VideoUploadResponseSuccess(videoUuid, "/video/getVideo/$videoUuid/video.m3u8")
