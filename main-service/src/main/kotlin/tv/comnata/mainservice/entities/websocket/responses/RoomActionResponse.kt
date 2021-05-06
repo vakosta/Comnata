@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class RoomActionResponse(
     val author: String,
-    val seekTime: Int,
+    val seekTime: Double,
     val type: ActionType,
     val actionTime: LocalDateTime,
 ) : Response(NotificationType.VIDEO_ACTION)

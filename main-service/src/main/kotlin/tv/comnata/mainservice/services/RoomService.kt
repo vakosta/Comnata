@@ -22,7 +22,7 @@ class RoomService(
         )
     }
 
-    fun processRoomVideoAction(userId: String, roomId: Int, seekTime: Int, actionType: ActionType) {
+    fun processRoomVideoAction(userId: String, roomId: Int, seekTime: Double, actionType: ActionType) {
         websocketService.send(
             URL_ROOM_ACTIONS.format(roomId),
             RoomActionResponse(userId, seekTime, actionType, LocalDateTime.now())

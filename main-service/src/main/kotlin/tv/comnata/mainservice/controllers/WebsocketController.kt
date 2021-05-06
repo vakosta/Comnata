@@ -27,7 +27,7 @@ class WebsocketController(
         principal: Principal,
         @DestinationVariable roomId: Int,
     ) {
-        logger.info("Controller — JOIN")
+        logger.info("JOIN")
         roomService.processVideoJoin(principal.name, roomId)
     }
 
@@ -38,7 +38,7 @@ class WebsocketController(
         @DestinationVariable roomId: Int,
         @Payload request: RoomActionRequest
     ) {
-        logger.info("Controller — VIDEO ACTION")
+        logger.info("VIDEO ACTION \t ${request.type}")
         roomService.processRoomVideoAction(principal.name, roomId, request.seekTime!!, request.type!!.getActionType())
     }
 
@@ -49,7 +49,7 @@ class WebsocketController(
         @DestinationVariable roomId: Int,
         @Payload request: RoomChatMessageRequest
     ) {
-        logger.info("Controller — CHAT MESSAGE")
+        logger.info("CHAT MESSAGE")
         roomService.processRoomChatMessage(principal.name, roomId, request.text!!)
     }
 
@@ -60,7 +60,7 @@ class WebsocketController(
         @DestinationVariable roomId: Int,
         @Payload request: RoomReactionRequest
     ) {
-        logger.info("Controller — REACTION")
+        logger.info("REACTION")
         roomService.processRoomReaction(principal.name, roomId, request.reaction!!.getReaction())
     }
 

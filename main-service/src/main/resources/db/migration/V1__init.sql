@@ -84,22 +84,6 @@ CREATE TABLE user_to_role
         ON UPDATE CASCADE
 );
 
-CREATE TABLE room_to_user
-(
-    room_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-
-    PRIMARY KEY (room_id, user_id),
-
-    FOREIGN KEY (room_id) REFERENCES room (id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-
-    FOREIGN KEY (user_id) REFERENCES app_user (id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
 
 /* ========== INSERTS ========== */
 

@@ -26,7 +26,7 @@ class VideoController(
         @PathVariable("video_id") videoId: String,
         @PathVariable("file_name") fileName: String,
     ): ResponseEntity<FileSystemResource> {
-        logger.info("GET: VIDEO $videoId — BASE FILE $fileName")
+        logger.info("VIDEO ${videoId.substring(0, 7)} \t BASE FILE $fileName")
 
         val headers = HttpHeaders()
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
@@ -41,7 +41,7 @@ class VideoController(
         @PathVariable("resolution") resolution: String,
         @PathVariable("file_name") fileName: String,
     ): ResponseEntity<FileSystemResource> {
-        logger.info("GET: VIDEO $videoId — FILE $fileName")
+        logger.info("VIDEO ${videoId.substring(0, 7)} \t FILE $fileName \t RESOLUTION $resolution")
 
         val headers = HttpHeaders()
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
