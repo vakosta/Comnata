@@ -1,5 +1,6 @@
 package tv.comnata.videoservice.controllers
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpHeaders
@@ -25,6 +26,8 @@ class VideoController(
         @PathVariable("video_id") videoId: String,
         @PathVariable("file_name") fileName: String,
     ): ResponseEntity<FileSystemResource> {
+        logger.info("GET: VIDEO $videoId — BASE FILE $fileName")
+
         val headers = HttpHeaders()
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
         val path = "/tmp/videos/$videoId/$fileName"
@@ -38,6 +41,8 @@ class VideoController(
         @PathVariable("resolution") resolution: String,
         @PathVariable("file_name") fileName: String,
     ): ResponseEntity<FileSystemResource> {
+        logger.info("GET: VIDEO $videoId — FILE $fileName")
+
         val headers = HttpHeaders()
         response.setHeader("Content-Disposition", String.format("inline; filename=%s", fileName))
         val path = "/tmp/videos/$videoId/$resolution/$fileName"
@@ -50,10 +55,13 @@ class VideoController(
         request: HttpServletRequest,
         @RequestParam file: MultipartFile
     ): VideoUploadResponse {
+        logger.info("UPLOAD NEW FILE")
         return videoService.saveVideo(file, "/tmp/videos/")
     }
 
     companion object {
+        private val logger = LoggerFactory.getLogger(VideoController::class.java)
+
         const val MEDIA_TYPE = "application/x-mpegURL"
     }
 }
