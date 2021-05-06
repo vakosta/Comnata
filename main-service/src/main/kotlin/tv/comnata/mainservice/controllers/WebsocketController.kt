@@ -25,7 +25,7 @@ class WebsocketController(
     @MessageMapping(URL_ROOM_JOIN)
     fun processRoomJoin(
         principal: Principal,
-        @DestinationVariable roomId: Int,
+        @DestinationVariable roomId: String,
     ) {
         logger.info("JOIN")
         roomService.processVideoJoin(principal.name, roomId)

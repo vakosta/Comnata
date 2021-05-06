@@ -5,6 +5,7 @@ abstract class Response(
 ) {
     enum class NotificationType {
         JOIN,
+        LEFT,
         VIDEO_ACTION,
         CHAT_MESSAGE,
         REACTION,

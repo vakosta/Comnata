@@ -1,10 +1,11 @@
 package tv.comnata.mainservice.controllers
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import tv.comnata.mainservice.entities.User
+import tv.comnata.mainservice.services.RoomService
 import tv.comnata.mainservice.services.UserService
-import tv.comnata.mainservice.services.VideoService
 
 @RestController
 // @RequestMapping("/main")
@@ -13,7 +14,7 @@ class MainController(
     private val userService: UserService,
 
     @Autowired
-    private val videoService: VideoService
+    private val roomService: RoomService
 ) {
     @GetMapping("/test")
     fun test(): User {
@@ -22,11 +23,15 @@ class MainController(
 
     @RequestMapping("/createVideo", method = [RequestMethod.PUT])
     fun createVideo(@RequestParam videoUuid: String) {
-        videoService.createVideo(videoUuid)
+        roomService.createRoom(videoUuid)
     }
 
     @PostMapping("/setVideoProgress")
     fun setVideoProgress(@RequestParam videoUuid: String, @RequestParam videoProgress: Int) {
-        videoService.setVideoProgress(videoUuid, videoProgress)
+        // roomService.setVideoProgress(videoUuid, videoProgress)
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(MainController::class.java)
     }
 }

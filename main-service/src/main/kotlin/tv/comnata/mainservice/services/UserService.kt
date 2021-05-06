@@ -11,7 +11,7 @@ class UserService(
     private val repository: UserRepository
 ) {
     fun getUser(): User {
-        val user = repository.findByUsername("Vakosta")
+        val user = repository.findUserByUsername("Vakosta")
         return user
     }
 }

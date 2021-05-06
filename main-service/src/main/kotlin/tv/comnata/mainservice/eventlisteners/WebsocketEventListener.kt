@@ -6,12 +6,20 @@ import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.messaging.SessionConnectEvent
 import org.springframework.web.socket.messaging.SessionDisconnectEvent
-import tv.comnata.mainservice.services.WebsocketService
+import tv.comnata.mainservice.repositories.RoomRepository
+import tv.comnata.mainservice.repositories.UserRepository
+import tv.comnata.mainservice.services.RoomService
 
 @Component
 class WebsocketEventListener(
     @Autowired
-    private val websocketService: WebsocketService,
+    private val roomService: RoomService,
+
+    @Autowired
+    private val userRepository: UserRepository,
+
+    @Autowired
+    private val roomRepository: RoomRepository,
 ) {
     @EventListener
     fun handleSessionConnected(event: SessionConnectEvent) {
@@ -21,6 +29,11 @@ class WebsocketEventListener(
     @EventListener
     fun handleSessionDisconnect(event: SessionDisconnectEvent) {
         logger.info("Disconnected!")
+
+        val user = userRepository.findUserByUsername(event.sessionId)
+        val room = roomRepository.findRoomByName(user.room.name)
+
+        roomService.processVideoLeft(user.username, room!!.name)
     }
 
     companion object {

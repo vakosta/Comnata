@@ -1,15 +1,19 @@
 package tv.comnata.mainservice.entities
 
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(name = "room")
 class Room(
-    @Id
-    @GeneratedValue
-    var id: Long,
+    var name: String,
 
     var creationDate: LocalDateTime,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    var users: Set<User> = hashSetOf(),
 )

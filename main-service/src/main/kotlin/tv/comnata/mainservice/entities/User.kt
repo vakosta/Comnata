@@ -5,18 +5,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "app_user")
 class User(
-    @Id
-    @GeneratedValue
-    var id: Long? = null,
-
     var username: String,
 
-    var password: String,
-
-    var email: String?,
-
-    var picture: String?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    var room: Room?,
+    var room: Room,
 )
