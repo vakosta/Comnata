@@ -29,11 +29,7 @@ class WebsocketEventListener(
     @EventListener
     fun handleSessionDisconnect(event: SessionDisconnectEvent) {
         logger.info("Disconnected!")
-
-        val user = userRepository.findUserByUsername(event.sessionId)
-        val room = roomRepository.findRoomByName(user.room.name)
-
-        roomService.processVideoLeft(user.username, room!!.name)
+        roomService.processVideoLeft(event.user!!.name)
     }
 
     companion object {

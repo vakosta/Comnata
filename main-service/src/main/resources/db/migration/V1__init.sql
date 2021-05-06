@@ -15,7 +15,7 @@ CREATE TABLE room
 CREATE TABLE app_user
 (
     id       BIGSERIAL   NOT NULL,
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(50) NOT NULL,
     room_id  INTEGER     NOT NULL,
 
     PRIMARY KEY (id),

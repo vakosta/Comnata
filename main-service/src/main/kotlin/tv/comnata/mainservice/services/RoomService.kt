@@ -3,6 +3,7 @@ package tv.comnata.mainservice.services
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import tv.comnata.mainservice.entities.Room
+import tv.comnata.mainservice.entities.User
 import tv.comnata.mainservice.entities.websocket.ActionType
 import tv.comnata.mainservice.entities.websocket.Reaction
 import tv.comnata.mainservice.entities.websocket.responses.*
@@ -31,16 +32,26 @@ class RoomService(
     }
 
     fun processVideoJoin(userId: String, roomId: String) {
+        val room = roomRepository.findRoomByName(roomId)
+        val user = User(userId, room!!)
+        userRepository.save(user)
+        val users = userRepository.findAllByRoomName(roomId).map { it.username }
+
         websocketService.send(
             URL_ROOM_JOINS.format(roomId),
-            RoomJoinResponse(userId, LocalDateTime.now())
+            RoomJoinResponse(userId, users, LocalDateTime.now())
         )
     }
 
-    fun processVideoLeft(userId: String, roomId: String) {
+    fun processVideoLeft(userId: String) {
+        val user = userRepository.findUserByUsername(userId)
+        val room = roomRepository.findRoomByName(user.room.name)
+        userRepository.delete(user)
+
+        val users = userRepository.findAllByRoomName(room!!.name).map { it.username }
         websocketService.send(
-            URL_ROOM_LEFTS.format(roomId),
-            RoomLeftResponse(userId, LocalDateTime.now())
+            URL_ROOM_LEFTS.format(room.name),
+            RoomLeftResponse(userId, users, LocalDateTime.now())
         )
     }
 

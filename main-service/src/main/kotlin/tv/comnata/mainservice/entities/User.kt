@@ -7,10 +7,10 @@ import javax.persistence.*
 class User(
     var username: String,
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    var room: Room,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    var room: Room,
 )
