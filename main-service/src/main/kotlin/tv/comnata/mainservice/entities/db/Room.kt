@@ -1,4 +1,4 @@
-package tv.comnata.mainservice.entities
+package tv.comnata.mainservice.entities.db
 
 import java.time.LocalDateTime
 import javax.persistence.*

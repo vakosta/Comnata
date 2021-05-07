@@ -13,6 +13,7 @@ import tv.comnata.mainservice.entities.websocket.getReaction
 import tv.comnata.mainservice.entities.websocket.requests.RoomActionRequest
 import tv.comnata.mainservice.entities.websocket.requests.RoomChatMessageRequest
 import tv.comnata.mainservice.entities.websocket.requests.RoomReactionRequest
+import tv.comnata.mainservice.entities.websocket.requests.RoomActionReadyRequest
 import tv.comnata.mainservice.services.RoomService
 import java.security.Principal
 
@@ -39,7 +40,23 @@ class WebsocketController(
         @Payload request: RoomActionRequest
     ) {
         logger.info("VIDEO ACTION \t ${request.type}")
-        roomService.processRoomVideoAction(principal.name, roomId, request.seekTime!!, request.type!!.getActionType())
+        roomService.processRoomVideoAction(
+            principal.name,
+            roomId,
+            request.seekTime!!,
+            request.type!!.getActionType()
+        )
+    }
+
+    @RequestMapping(URL_ROOM_VIDEO_ACTION_READY, method = [RequestMethod.POST])
+    @MessageMapping(URL_ROOM_VIDEO_ACTION_READY)
+    fun processRoomVideoActionReady(
+        principal: Principal,
+        @DestinationVariable roomId: String,
+        @Payload request: RoomActionReadyRequest,
+    ) {
+        logger.info("READY \t ${principal.name}")
+        roomService.processRoomVideoActionReady(principal.name, request.actionId!!)
     }
 
     @RequestMapping(URL_ROOM_CHAT_MESSAGE, method = [RequestMethod.POST])
@@ -69,6 +86,7 @@ class WebsocketController(
 
         const val URL_ROOM_JOIN = "/room/{roomId}/join"
         const val URL_ROOM_VIDEO_ACTION = "/room/{roomId}/videoAction"
+        const val URL_ROOM_VIDEO_ACTION_READY = "/room/{roomId}/videoActionReady"
         const val URL_ROOM_CHAT_MESSAGE = "/room/{roomId}/chatMessage"
         const val URL_ROOM_REACTION = "/room/{roomId}/reaction"
     }

@@ -4,8 +4,12 @@ enum class ActionType {
     RESUME,
     PAUSE,
     SEEK,
-    ALL_CLIENTS_READY,
     UNDEFINED,
+}
+
+enum class ActionStep {
+    CHECK,
+    READY,
 }
 
 enum class Reaction {

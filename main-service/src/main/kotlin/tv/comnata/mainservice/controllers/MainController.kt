@@ -3,7 +3,7 @@ package tv.comnata.mainservice.controllers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import tv.comnata.mainservice.entities.User
+import tv.comnata.mainservice.entities.db.User
 import tv.comnata.mainservice.services.RoomService
 import tv.comnata.mainservice.services.UserService
 
