@@ -55,21 +55,21 @@ class RoomService(
         )
     }
 
-    fun processRoomVideoAction(userId: String, roomId: Int, seekTime: Double, actionType: ActionType) {
+    fun processRoomVideoAction(userId: String, roomId: String, seekTime: Double, actionType: ActionType) {
         websocketService.send(
             URL_ROOM_ACTIONS.format(roomId),
             RoomActionResponse(userId, seekTime, actionType, LocalDateTime.now())
         )
     }
 
-    fun processRoomChatMessage(userId: String, roomId: Int, text: String) {
+    fun processRoomChatMessage(userId: String, roomId: String, text: String) {
         websocketService.send(
             URL_ROOM_CHAT_MESSAGES.format(roomId),
             RoomChatMessageResponse(userId, text, LocalDateTime.now())
         )
     }
 
-    fun processRoomReaction(userId: String, roomId: Int, reaction: Reaction) {
+    fun processRoomReaction(userId: String, roomId: String, reaction: Reaction) {
         websocketService.send(
             URL_ROOM_REACTIONS.format(roomId),
             RoomReactionResponse(userId, reaction, LocalDateTime.now())

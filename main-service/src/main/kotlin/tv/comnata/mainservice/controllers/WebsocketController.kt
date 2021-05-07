@@ -35,7 +35,7 @@ class WebsocketController(
     @MessageMapping(URL_ROOM_VIDEO_ACTION)
     fun processRoomVideoAction(
         principal: Principal,
-        @DestinationVariable roomId: Int,
+        @DestinationVariable roomId: String,
         @Payload request: RoomActionRequest
     ) {
         logger.info("VIDEO ACTION \t ${request.type}")
@@ -46,7 +46,7 @@ class WebsocketController(
     @MessageMapping(URL_ROOM_CHAT_MESSAGE)
     fun processRoomChatMessage(
         principal: Principal,
-        @DestinationVariable roomId: Int,
+        @DestinationVariable roomId: String,
         @Payload request: RoomChatMessageRequest
     ) {
         logger.info("CHAT MESSAGE")
@@ -57,7 +57,7 @@ class WebsocketController(
     @MessageMapping(URL_ROOM_REACTION)
     fun processRoomReaction(
         principal: Principal,
-        @DestinationVariable roomId: Int,
+        @DestinationVariable roomId: String,
         @Payload request: RoomReactionRequest
     ) {
         logger.info("REACTION")
