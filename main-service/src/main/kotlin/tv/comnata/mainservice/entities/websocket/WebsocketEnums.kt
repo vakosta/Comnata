@@ -8,6 +8,11 @@ enum class ActionType {
     UNDEFINED,
 }
 
+enum class ActionStep {
+    CHECK,
+    READY,
+}
+
 enum class Reaction {
     GOOD,
     OMG,

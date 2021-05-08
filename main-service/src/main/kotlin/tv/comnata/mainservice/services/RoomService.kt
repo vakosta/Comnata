@@ -2,25 +2,26 @@ package tv.comnata.mainservice.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import tv.comnata.mainservice.entities.Action
 import tv.comnata.mainservice.entities.Room
 import tv.comnata.mainservice.entities.User
+import tv.comnata.mainservice.entities.websocket.ActionStep
 import tv.comnata.mainservice.entities.websocket.ActionType
 import tv.comnata.mainservice.entities.websocket.Reaction
+import tv.comnata.mainservice.entities.websocket.getActionType
 import tv.comnata.mainservice.entities.websocket.responses.*
 import tv.comnata.mainservice.repositories.RoomRepository
 import tv.comnata.mainservice.repositories.UserRepository
+import tv.comnata.mainservice.stores.ActionsStore
 import java.time.LocalDateTime
 
 @Service
 class RoomService(
-    @Autowired
-    private val websocketService: WebsocketService,
-
-    @Autowired
-    private val userRepository: UserRepository,
-
-    @Autowired
-    private val roomRepository: RoomRepository,
+    @Autowired private val websocketService: WebsocketService,
+    @Autowired private val userRepository: UserRepository,
+    @Autowired private val roomRepository: RoomRepository,
+    @Autowired private val actionsStore: ActionsStore,
 ) {
     fun createRoom(roomName: String) {
         val room = Room(
@@ -55,11 +56,49 @@ class RoomService(
         )
     }
 
-    fun processRoomVideoAction(userId: String, roomId: String, seekTime: Double, actionType: ActionType) {
+    @Transactional
+    fun processRoomVideoAction(userId: String, roomId: String, seekTime: Double, type: ActionType) {
+        if (type == ActionType.SEEK) {
+            processRoomVideoActionSeek(userId, roomId, seekTime, type)
+        } else {
+            websocketService.send(
+                URL_ROOM_ACTIONS.format(roomId),
+                RoomActionResponse(-1, userId, seekTime, type, ActionStep.READY, LocalDateTime.now())
+            )
+        }
+    }
+
+    @Transactional
+    fun processRoomVideoActionSeek(userId: String, roomId: String, seekTime: Double, type: ActionType) {
+        val room = roomRepository.findRoomByName(roomId)
+        val action = Action(actionsStore.index, type.name, seekTime, userId)
+        action.addUsers(room!!.users.map { it.username }.toMutableSet())
+        actionsStore.waitingActions[action.id] = action
+
         websocketService.send(
             URL_ROOM_ACTIONS.format(roomId),
-            RoomActionResponse(userId, seekTime, actionType, LocalDateTime.now())
+            RoomActionResponse(action.id, userId, seekTime, type, ActionStep.CHECK, LocalDateTime.now())
         )
+    }
+
+    fun processRoomVideoActionReady(userId: String, roomId: String, actionId: Long) {
+        val action = actionsStore.waitingActions[actionId]
+        action!!.deleteUser(userId)
+
+        if (action.users.isEmpty()) {
+            websocketService.send(
+                URL_ROOM_ACTIONS.format(roomId),
+                RoomActionResponse(
+                    actionId,
+                    userId,
+                    action.seekTime,
+                    action.type.getActionType(),
+                    ActionStep.READY,
+                    LocalDateTime.now()
+                )
+            )
+            actionsStore.waitingActions.remove(actionId)
+        }
     }
 
     fun processRoomChatMessage(userId: String, roomId: String, text: String) {
