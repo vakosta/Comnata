@@ -63,7 +63,10 @@ class VideoService(
 
     fun saveVideo(file: MultipartFile, realPath: String): VideoUploadResponse {
         val separatedName = file.originalFilename!!.split(".")
-        val videoUuid = UUID.randomUUID().toString().replace("-", "")
+        val videoUuid = UUID.randomUUID().toString()
+            .replace("-", "")
+            .substring(0, 6)
+            .toUpperCase()
         val type = "." + separatedName[separatedName.size - 1]
 
         return try {

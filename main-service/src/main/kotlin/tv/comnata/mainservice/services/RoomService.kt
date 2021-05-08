@@ -23,6 +23,10 @@ class RoomService(
     @Autowired private val roomRepository: RoomRepository,
     @Autowired private val actionsStore: ActionsStore,
 ) {
+    fun checkIsRoomExist(roomName: String): Boolean {
+        return roomRepository.findRoomByName(roomName) != null
+    }
+
     fun createRoom(roomName: String) {
         val room = Room(
             roomName,
