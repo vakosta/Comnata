@@ -7,11 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class WebsocketService(
-    @Autowired
-    private val messagingTemplate: SimpMessagingTemplate,
-
-    @Autowired
-    private val simpUserRegistry: SimpUserRegistry,
+    @Autowired private val messagingTemplate: SimpMessagingTemplate,
+    @Autowired private val simpUserRegistry: SimpUserRegistry,
 ) {
     fun send(url: String, obj: Any) {
         messagingTemplate.convertAndSend(url, obj)

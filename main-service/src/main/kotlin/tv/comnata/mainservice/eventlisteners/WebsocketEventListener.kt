@@ -14,7 +14,7 @@ class WebsocketEventListener(
     private val roomService: RoomService,
 ) {
     @EventListener
-    fun handleSessionConnected(event: SessionConnectEvent) {
+    fun handleSessionConnect(event: SessionConnectEvent) {
         logger.info("Connected \t ${event.user!!.name}")
     }
 
