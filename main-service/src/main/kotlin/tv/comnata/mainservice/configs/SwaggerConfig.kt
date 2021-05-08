@@ -2,13 +2,13 @@ package tv.comnata.mainservice.configs
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.service.*
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
-import java.util.*
 
 @Configuration
 class SwaggerConfig : WebMvcConfigurer {
@@ -51,5 +51,9 @@ class SwaggerConfig : WebMvcConfigurer {
 
     private fun apiKey(): ApiKey {
         return ApiKey("authkey", "Authorization", "header")
+    }
+
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")
     }
 }
