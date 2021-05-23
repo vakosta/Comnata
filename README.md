@@ -10,4 +10,4 @@ The application implements a microservice architecture. The application contains
 - [gateway-server](gateway-server): Gateway service to route requests based on [spring-cloud-gateway](https://github.com/spring-cloud/spring-cloud-gateway/).
 - [main-service](main-service): Service for interaction with clients over the WebSocket protocol.
 - [video-service](video-service): Service for processing video files.
-- [docker](docker): Docker compose support.
+- [docker](docker-compose.yml): Docker compose support.
