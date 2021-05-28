@@ -12,6 +12,10 @@ The application implements a microservice architecture. The application contains
 - [video-service](video-service): Service for processing video files.
 - [docker](docker-compose.yml): Docker compose support.
 
+## Related repositories
+
+- [Documentation](https://github.com/Vakosta/ComnataDocumentation) in Latex.
+
 ## Contact
 
 Send me a message in Telegram: [@Vakosta](https://t.me/Vakosta).
