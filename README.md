@@ -2,7 +2,7 @@
 
 Comnata is a co-watching movie app. This repository contains a server-side sources of Comnata.
 
-To use client click [here](https://comnata.herokuapp.com/start).
+To use client click <a href="https://comnata.herokuapp.com/start" target="_blank">here</a>.
 
 ## Getting Started
 
@@ -10,8 +10,9 @@ Process of installation is very easy.
 
 ### Installation and Running
 
-1. Download and install Docker from [here](https://www.docker.com/products/docker-desktop).
-1. Download a Comnata source code of the latest release from [here](https://github.com/Vakosta/Comnata/releases).
+1. Download and install Docker from <a href="https://www.docker.com/products/docker-desktop" target="_blank">here</a>.
+1. Download a Comnata source code of the latest release
+   from <a href="https://github.com/Vakosta/Comnata/releases" target="_blank">here</a>.
 1. In the root of downloaded source code run command `docker-compose up`.
 
 ### Uploading Videos
