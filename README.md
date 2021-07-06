@@ -2,6 +2,8 @@
 
 Comnata is a co-watching movie app. This repository contains a server-side sources of Comnata.
 
+To use client click [here](https://comnata.herokuapp.com/start).
+
 ## Getting Started
 
 Process of installation is very easy.
@@ -16,7 +18,7 @@ Process of installation is very easy.
 
 _Haven't written yet._
 
-### Getting a URL
+### Getting a Server URL
 
 _Haven't written yet._
 
@@ -32,7 +34,7 @@ The application implements a microservice architecture. The application contains
 
 ## Related Repositories
 
-- [Frontend](https://github.com/Vakosta/ComnataDocumentation);
+- [Web Frontend](https://github.com/Vakosta/ComnataDocumentation);
 - [Documentation](https://github.com/Vakosta/ComnataDocumentation) in Latex.
 
 ## Contact
