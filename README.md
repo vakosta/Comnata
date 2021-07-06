@@ -2,6 +2,24 @@
 
 Comnata is a co-watching movie app. This repository contains a server-side sources of Comnata.
 
+## Getting Started
+
+Process of installation is very easy.
+
+### Installation and Running
+
+1. Download and install Docker from [here](https://www.docker.com/products/docker-desktop).
+1. Download a Comnata source code of the latest release from [here](https://github.com/Vakosta/Comnata/releases).
+1. In the root of downloaded source code run command `docker-compose up`.
+
+### Uploading Videos
+
+_Haven't written yet._
+
+### Getting a URL
+
+_Haven't written yet._
+
 ## Architecture
 
 The application implements a microservice architecture. The application contains:
@@ -12,7 +30,7 @@ The application implements a microservice architecture. The application contains
 - [video-service](video-service): Service for processing video files.
 - [docker](docker-compose.yml): Docker compose support.
 
-## Related repositories
+## Related Repositories
 
 - [Frontend](https://github.com/Vakosta/ComnataDocumentation);
 - [Documentation](https://github.com/Vakosta/ComnataDocumentation) in Latex.
