@@ -53,7 +53,6 @@ services:
       - eureka-network
 
   video-service:
-    # image: vakosta/video-service:v1.0.0
     container_name: video-service
     build:
       context: video-service
