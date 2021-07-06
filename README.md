@@ -14,6 +14,7 @@ The application implements a microservice architecture. The application contains
 
 ## Related repositories
 
+- [Frontend](https://github.com/Vakosta/ComnataDocumentation);
 - [Documentation](https://github.com/Vakosta/ComnataDocumentation) in Latex.
 
 ## Contact
