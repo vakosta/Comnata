@@ -30,17 +30,6 @@ services:
     networks:
       - eureka-network
 
-  websocket-server:
-    container_name: websocket-server
-    build:
-      context: websocket-server
-      dockerfile: Dockerfile
-    restart: on-failure
-    ports:
-      - "8188:8188"
-    networks:
-      - eureka-network
-
   main-service:
     container_name: main-service
     build:
