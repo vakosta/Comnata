@@ -15,14 +15,6 @@ Process of installation is very easy.
    from <a href="https://github.com/Vakosta/Comnata/releases" target="_blank">here</a>.
 1. In the root of downloaded source code run command `docker-compose up`.
 
-### Uploading Videos
-
-_Haven't written yet._
-
-### Getting a Server URL
-
-_Haven't written yet._
-
 ## Architecture
 
 The application implements a microservice architecture. The application contains:
