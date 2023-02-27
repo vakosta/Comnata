@@ -11,7 +11,7 @@ Process of installation is very easy.
 ### Installation and Running
 
 1. Download and install Docker from <a href="https://www.docker.com/products/docker-desktop" target="_blank">here</a>.
-1. Download a Comnata source code of the latest release
+1. Download the Comnata source code of the latest release
    from <a href="https://github.com/Vakosta/Comnata/releases" target="_blank">here</a>.
 1. In the root of downloaded source code run command `docker-compose up`.
 
