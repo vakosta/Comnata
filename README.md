@@ -2,7 +2,7 @@
 
 Comnata is a co-watching movie app. This repository contains a server-side sources of Comnata.
 
-To use client click <a href="https://comnata.herokuapp.com/start" target="_blank">here</a>.
+To use client click <a href="https://comnata.herokuapp.com/start" target="_blank">here</a>. (Currently, it had been killed by Heroku)
 
 ## Getting Started
 
